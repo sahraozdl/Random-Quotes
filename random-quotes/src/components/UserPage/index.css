@@ -1,0 +1,45 @@
+.user-page {
+  background-color: white;
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 50px 200px;
+  display: flex;
+  flex-direction: row;
+}
+.user-page__liked,.user-page__disliked{
+  border: 2px solid black;
+  margin: 100px auto;
+  border-radius: 20px;
+  padding: 20px;
+  width: 40%;
+  max-height: 85%;
+}
+.user-page__liked{
+  background-color:palevioletred;
+}
+.user-page__disliked{
+  background-color: #ffde04;
+  color: black;
+}
+.user-page__disliked-list,.user-page__liked-list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  text-align: left;
+}
+.user-page__disliked-list span,.user-page__liked-list span{
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.user-page__p{
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.black-shadow{
+  text-shadow: 1px 1px 2px #000;
+}
+.white-shadow{
+  text-shadow: 1px 1px 2px #ffffff;
+}

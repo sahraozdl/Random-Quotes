@@ -1,0 +1,15 @@
+.home{
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 50px 200px;
+}
+.home__container{
+  background-color: rgb(151, 47, 248);
+  border: 2px solid black;
+  margin: 100px auto;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 85%;
+  max-height: 85%;
+}
