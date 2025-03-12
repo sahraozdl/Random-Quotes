@@ -1,18 +1,19 @@
 .user-page {
   background-color: white;
   color: rgb(255, 255, 255);
-  border-radius: 10px;
+  border-radius: 0px 0px 10px 10px;
   padding: 10px;
   margin: 50px 200px;
   display: flex;
   flex-direction: row;
+  border-top: 3rem dotted rgb(0, 0, 0);
 }
 .user-page__liked,.user-page__disliked{
-  border: 2px solid black;
+  border: 3px solid black;
   margin: 100px auto;
   border-radius: 20px;
   padding: 20px;
-  width: 40%;
+  width: 30%;
   max-height: 85%;
 }
 .user-page__liked{

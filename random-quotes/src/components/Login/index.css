@@ -1,13 +1,13 @@
-.home{
+.login-container{
   background-color: rgb(255, 255, 255);
   border-radius: 0px 0px 10px 10px;
   padding: 10px;
   margin: 50px 200px;
   border-top: 3rem dotted rgb(0, 0, 0);
 }
-.home__container{
-  background-color: rgb(165, 71, 253);
-  border: 3px solid black;
+.login{
+  background-color: rgb(151, 47, 248);
+  border: 2px solid black;
   margin: 100px auto;
   border-radius: 20px;
   padding: 20px;
