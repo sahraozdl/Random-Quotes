@@ -1,4 +1,4 @@
-import { Auth } from "../Auth";
+import { Auth } from "../../firebase/auth"; 
 import "./index.css";
 
 export function Login(){
