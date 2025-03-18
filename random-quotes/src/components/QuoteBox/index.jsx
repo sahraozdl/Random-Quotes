@@ -1,39 +1,60 @@
 import "./styles.css";
-import { UserActionTypes, UserContext, UserDispatchContext } from "../../UserContext";
-import { useContext } from "react";
-import { doc, setDoc, updateDoc, arrayUnion, increment } from "firebase/firestore";
+import {
+  UserActionTypes,
+  UserContext,
+  UserDispatchContext,
+} from "../../UserContext";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  getDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase/config";
 
-export function QuoteBox({
-  id,
-  quote,
-  author,
-  onNewQuoteClick,
-  LikeCount,
-  DislikeCount,
-}) {
+export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
 
+  const [updatedLikeCount, setUpdatedLikeCount] = useState(0);
+  const [updatedDislikeCount, setUpdatedDislikeCount] = useState(0);
+
   // Reference to the specific quote document in Firestore
   const quoteDocRef = doc(db, "quotes", id);
+  console.log("Current user:", user);
+
+  const getQuoteCount = async () => {
+    const updatedDoc = await getDoc(quoteDocRef);
+    if (updatedDoc.exists()) {
+      const updatedData = updatedDoc.data();
+      setUpdatedLikeCount(updatedData.likedBy?.length || 0); // Set the updated likeCount from likedBy array length
+      setUpdatedDislikeCount(updatedData.dislikedBy?.length || 0); // Set the updated dislikeCount from dislikedBy array length
+    }
+  };
 
   // Handle like button click
   async function handleLikeClick() {
-    if (!user) {
+    if (!user || !user.id) {
       console.log("User is not logged in");
       return;
     }
 
     // Dispatch action to update liked quotes in state
     dispatch({ type: UserActionTypes.UpdateLikedQuotes, payload: { id } });
-    console.log(user.id);
+
     try {
       // Add the user ID to likedBy and update likeCount
       await updateDoc(quoteDocRef, {
-        likedBy: arrayUnion(user.id),
-        likeCount: increment(1), // Increment like count by 1
+        likedBy: arrayUnion(user.id), // ✅ Use user.id
+        dislikedBy: user.dislikedQuotes.includes(quote.id)
+          ? arrayRemove(user.id) // Remove from dislikedBy if present
+          : [], // ✅ Remove from dislikedBy if not
       });
+
+      // Get the updated like count from Firestore
+      getQuoteCount();
     } catch (err) {
       console.error("Error liking quote:", err);
     }
@@ -41,24 +62,32 @@ export function QuoteBox({
 
   // Handle dislike button click
   async function handleDislikeClick() {
-    if (!user) {
+    if (!user || !user.id) {
       console.log("User is not logged in");
       return;
     }
 
     // Dispatch action to update disliked quotes in state
     dispatch({ type: UserActionTypes.UpdateDislikedQuotes, payload: { id } });
-    console.log(user.id);
+
     try {
       // Add the user ID to dislikedBy and update dislikeCount
       await updateDoc(quoteDocRef, {
         dislikedBy: arrayUnion(user.id),
-        dislikeCount: increment(1), // Increment dislike count by 1
+        likedBy: user.likedQuotes.includes(quote.id)
+          ? arrayRemove(user.id)
+          : [],
       });
+
+      // Get the updated like count from Firestore
+      getQuoteCount();
     } catch (err) {
       console.error("Error disliking quote:", err);
     }
   }
+  useEffect(() => {
+    getQuoteCount();
+  }, []);
 
   return (
     <div className="quote-box">
@@ -69,18 +98,16 @@ export function QuoteBox({
           <button
             className="like-btn"
             onClick={handleLikeClick}
-            disabled={id && user?.likedQuotes?.includes(id)}
+            disabled={user?.likedQuotes?.includes(id)}
           >
-            Like {LikeCount}
-            {user?.likedQuotes?.includes(id) ? "(Liked)" : "(Not Liked)"}
+            {updatedLikeCount}
           </button>
           <button
             className="dislike-btn"
             onClick={handleDislikeClick}
-            disabled={id && user?.dislikedQuotes?.includes(id)}
+            disabled={user?.dislikedQuotes?.includes(id)}
           >
-            Dislike {DislikeCount}
-            {user?.dislikedQuotes?.includes(id) ? "(Disliked)" : "(Not Disliked)"}
+            {updatedDislikeCount}
           </button>
         </div>
         <button className="new-quote__btn" onClick={onNewQuoteClick}>
