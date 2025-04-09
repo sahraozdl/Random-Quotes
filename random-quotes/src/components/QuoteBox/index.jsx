@@ -67,7 +67,7 @@ export function QuoteBox({
       <div className="quote-box__btns">
         <div className="quote-box__actions">
           <button
-            className="like-btn"
+            className="btn"
             onClick={handleLikeClick}
             disabled={id && user?.likedQuotes?.includes(id)}
           >
@@ -75,7 +75,7 @@ export function QuoteBox({
             {user?.likedQuotes?.includes(id) ? "(Liked)" : "(Not Liked)"}
           </button>
           <button
-            className="dislike-btn"
+            className="btn"
             onClick={handleDislikeClick}
             disabled={id && user?.dislikedQuotes?.includes(id)}
           >
@@ -83,7 +83,7 @@ export function QuoteBox({
             {user?.dislikedQuotes?.includes(id) ? "(Disliked)" : "(Not Disliked)"}
           </button>
         </div>
-        <button className="new-quote__btn" onClick={onNewQuoteClick}>
+        <button className="btn" onClick={onNewQuoteClick}>
           New Quote
         </button>
       </div>

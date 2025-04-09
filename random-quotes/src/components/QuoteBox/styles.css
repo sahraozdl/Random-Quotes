@@ -21,16 +21,10 @@
   flex-direction: row-reverse;
   justify-content: space-between;
 }
-.like-btn,
-.dislike-btn {
-  width: 70px;
-  height: 30px;
-  font-size: 12px;
-}
-.new-quote__btn,
-.like-btn,
-.dislike-btn {
+
+.btn {
   background-color: #ffde04;
+  border: 1px solid #ffde04;
   color: rgb(255, 25, 148);
   font-weight: 600;
   text-shadow: 0px 1px 1px #000000;
@@ -39,22 +33,17 @@
   font-size: 16px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
   margin: 0;
 }
 
-.new-quote__btn:hover,
-.like-btn:hover,
-.dislike-btn:hover {
+.btn:hover {
   background-color: rgb(255, 25, 148);
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
   border: 1px solid #000000;
   color: #ffde04;
 }
 
-.new-quote__btn:active {
-  transform: scale(0.95);
-}
 .quote-box__actions{
   display: flex;
   justify-content:center;
