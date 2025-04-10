@@ -1,0 +1,36 @@
+.input{
+  width: 50%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #000000;
+  margin-bottom: 10px;
+}
+.auth-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}
+.btn{
+  width: 90px;
+  height: 30px;
+  font-size: 12px;
+  background-color: #ffde04;
+  border: 1px solid #ffde04;
+  color: rgb(255, 25, 148);
+  font-weight: 600;
+  text-shadow: 0px 1px 1px #000000;
+  padding: 6px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.auth-buttons{
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  align-items: center;
+  padding: 0 20px;
+}
