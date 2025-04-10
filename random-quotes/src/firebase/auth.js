@@ -1,3 +1,4 @@
+import "./index.css";
 import { useState, useContext, useEffect } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -52,22 +53,26 @@ export const Auth = () => {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        className="input"
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        className="input"
       />
-      <button onClick={signUp}>Sign Up</button>
-      <button onClick={signIn}>Sign In</button>
-      <button onClick={logOut}>Log Out</button>
+      <div className="auth-buttons">
+      <button onClick={signUp} className="btn">Sign Up</button>
+      <button onClick={signIn} className="btn">Sign In</button>
+      <button onClick={logOut} className="btn">Log Out</button>
+      </div>
     </div>
   );
 };
