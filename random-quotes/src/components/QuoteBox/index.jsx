@@ -96,22 +96,22 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       <div className="quote-box__btns">
         <div className="quote-box__actions">
           <button
-            className="like-btn"
+            className="btn"
             onClick={handleLikeClick}
             disabled={user?.likedQuotes?.includes(id)}
           >
             {updatedLikeCount}
           </button>
           <button
-            className="dislike-btn"
+            className="btn"
             onClick={handleDislikeClick}
             disabled={user?.dislikedQuotes?.includes(id)}
           >
             {updatedDislikeCount}
           </button>
         </div>
-        <button className="new-quote__btn" onClick={onNewQuoteClick}>
-          New Quote
+        <button className="btn" onClick={onNewQuoteClick}>
+          New
         </button>
       </div>
     </div>
