@@ -47,13 +47,21 @@ export const QuotesPage = () => {
 
   return (
     <section className="quotes-page">
+      <div className="quotes-page__buttons">
       <button
         className="quotes-btn"
         onClick={() => setShowLiked((prev) => !prev)}
       >
         Liked Quotes
       </button>
-
+      <button
+        className="quotes-btn"
+        onClick={() => setShowDisliked((prev) => !prev)}
+      >
+        Disliked Quotes
+      </button>
+      </div>
+      <div className="quotes-page__content">
       {showLiked && (
         <div className="quotes-page__liked">
           <p className="quotes-page__p black-shadow">Liked quotes:</p>
@@ -73,12 +81,6 @@ export const QuotesPage = () => {
         </div>
       )}
 
-      <button
-        className="quotes-btn"
-        onClick={() => setShowDisliked((prev) => !prev)}
-      >
-        Disliked Quotes
-      </button>
       {showDisliked && (
         <div className="quotes-page__disliked">
           <p className="quotes-page__p white-shadow">Disliked quotes:</p>
@@ -96,7 +98,7 @@ export const QuotesPage = () => {
             )}
           </ul>
         </div>
-      )}
+      )}</div>
     </section>
   );
 };

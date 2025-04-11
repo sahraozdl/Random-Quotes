@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../UserContext";
 import "./index.css";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, getDocs, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/config";
 
@@ -13,8 +13,37 @@ export const Settings = () => {
   const [photoURL, setPhotoURL] = useState("");
   const [previewImage, setPreviewImage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [selectedCategories, setSelectedCategories] = useState(
+    user.favoriteCategories || []
+  );
+  const [categories, setCategories] = useState([]); // State to hold categories
 
-  // ✅ Load user data from Firestore
+  const fetchCategories = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "categories"));
+      const categoryList = [];
+      querySnapshot.forEach((doc) => {
+        categoryList.push(doc.id); // Assuming each document ID is the category name
+      });
+      setCategories(categoryList);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setSelectedCategories((prevCategories) =>
+      prevCategories.includes(value)
+        ? prevCategories.filter((category) => category !== value)
+        : [...prevCategories, value]
+    );
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user?.id) return;
@@ -28,6 +57,7 @@ export const Settings = () => {
         setPhone(data.phone || "");
         setPhotoURL(data.photoURL || "");
         setPreviewImage(data.photoURL || "");
+        setSelectedCategories(data.favoriteCategories || []);
       }
       setLoading(false);
     };
@@ -46,51 +76,39 @@ export const Settings = () => {
 
   const handleSave = async () => {
     try {
-      // Reference to the Firestore user document
       const userRef = doc(db, "users", user.id);
-
-      // Check if the document exists, if not create it with default values
       const docSnapshot = await getDoc(userRef);
       if (!docSnapshot.exists()) {
-        // If the document doesn't exist, create it with default fields
         await setDoc(userRef, { name: "", phone: "", photoURL: "" });
         console.log("New user document created with default fields.");
       }
 
       let imageURL = previewImage;
 
-      // Check if photoURL is an instance of File (i.e., a new image is being uploaded)
       if (photoURL instanceof File) {
-        // Create a reference to Firebase Storage
         const storageRef = ref(storage, `avatars/${user.id}/${photoURL.name}`);
 
-        // Upload the image to Firebase Storage
         const uploadResult = await uploadBytes(storageRef, photoURL);
         console.log("Upload result:", uploadResult);
 
-        // Get the download URL for the uploaded image
         imageURL = await getDownloadURL(uploadResult.ref);
         console.log("Download URL:", imageURL);
       }
 
-      // Save the updated user data to Firestore
       await setDoc(
         userRef,
         {
           name,
           phone,
           photoURL: imageURL,
+          favoriteCategories: selectedCategories,
         },
         { merge: true }
       );
-
-      // Alert the user that their profile was updated
       alert("Profile updated!");
 
-      // Log the update to the console for debugging
       console.log("User document updated with name:", name);
     } catch (error) {
-      // Log the specific error details for debugging
       console.error("Error in handleSave function:", error.message);
       alert("Something went wrong. Check the console for more details.");
     }
@@ -144,6 +162,22 @@ export const Settings = () => {
             />
           </label>
 
+          <label>
+            <strong>Favorite Categories:</strong>
+            <select
+              multiple
+              value={selectedCategories}
+              onChange={handleCategoryChange}
+              className="user-page__input user-page__select"
+            >
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </label>
+
           <button onClick={handleSave} className="user-page__button">
             Save Settings
           </button>
@@ -152,5 +186,4 @@ export const Settings = () => {
     </section>
   );
 };
-
 export default Settings;
