@@ -69,9 +69,9 @@ export const Auth = () => {
         className="input"
       />
       <div className="auth-buttons">
-      <button onClick={signUp} className="btn">Sign Up</button>
-      <button onClick={signIn} className="btn">Sign In</button>
-      <button onClick={logOut} className="btn">Log Out</button>
+      <button onClick={signUp} className="auth-btn">Sign Up</button>
+      <button onClick={signIn} className="auth-btn">Sign In</button>
+      <button onClick={logOut} className="auth-btn">Log Out</button>
       </div>
     </div>
   );

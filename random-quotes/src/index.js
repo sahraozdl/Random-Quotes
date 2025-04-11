@@ -1,25 +1,3 @@
-/*import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import { UserProvider } from "./UserContext";
-
-const loggedInUser = {
-  id: "403661db-955f-424f-a47b-59c6a91a2e24",
-  name: "John Doe",
-  email: "john@gmail.com",
-  likedQuotes: [],
-  dislikedQuotes: [],
-};
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <UserProvider initialValue={loggedInUser}>
-      <App />
-    </UserProvider>
-  </React.StrictMode>
-);*/
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -28,6 +6,7 @@ import { UserProvider } from "./UserContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebase/config"; // Assuming you have your firebase config here
 import { doc, getDoc } from "firebase/firestore";
+import { BrowserRouter } from "react-router";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -68,8 +47,12 @@ const AppWrapper = () => {
   }
 
   return (
-    <UserProvider initialValue={user || { likedQuotes: [], dislikedQuotes: [] }}>
-      <App />
+    <UserProvider
+      initialValue={user || { likedQuotes: [], dislikedQuotes: [] }}
+    >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </UserProvider>
   );
 };

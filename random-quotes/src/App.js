@@ -1,38 +1,32 @@
 import "./App.css";
 import { useState } from "react";
-import { UserPage } from "./components/UserPage";
-import { Home } from "./components/Home";
-import { Login } from "./components/Login";
-//import {db} from "./config/firebase";
-//import {collection, getDocs} from "firebase/firestore";
+import { AppRouter } from "./AppRoute";
+//import { useNavigate } from "react-router";
+import { NavLink } from "react-router";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("home");
-  const [quotes, SetQuotes] = useState([]);
-  /*const quoteList = collection(db, "quotes");
-  useEffect(() => {
-   const getQuoteList= async () => {
-    try{
-     const data = await getDocs(quoteList);
-     const filteredData = data.docs.map((doc) => ({...doc.data()}))
-     SetQuotes(filteredData);
-    } catch (err) {
-      console.error(err);
-    };
-    getQuoteList();
-   }
-  }, []);*/
+  //const navigate = useNavigate();
+  //const [quotes, SetQuotes] = useState([]);
 
   return (
     <div className="App">
-      <nav className="nav--top">
-        <button onClick={() => setCurrentPage("home")} className="nav-btn">Home</button>
-        <button onClick={() => setCurrentPage("user")} className="nav-btn">User</button>
-        <button onClick={() => setCurrentPage("login")} className="nav-btn">Login</button>
+      <nav >
+        <ul className="nav--top--list">
+        <li>
+          <NavLink to="/" className="nav-btn" end>Home</NavLink>
+          </li>
+        <li>
+          <NavLink to="/user/settings" className="nav-btn" end>User</NavLink>
+          </li>
+        <li>
+          <NavLink to="/user/login" className="nav-btn" end>Login</NavLink>
+          </li>
+        <li>
+          <button className="nav-btn">Logout</button>
+        </li>
+        </ul>
       </nav>
-      { currentPage === "home" && < Home/> }
-      { currentPage === "user" && <UserPage /> }
-      { currentPage === "login" && <Login /> }
+      <AppRouter />
     </div>
   );
 }
