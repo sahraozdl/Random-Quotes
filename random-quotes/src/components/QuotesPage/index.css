@@ -1,6 +1,64 @@
-.quotes--page--title {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  color: aliceblue;
+.quotes-page {
+  background-color: white;
+  min-height: 50vh;
+  color: rgb(255, 255, 255);
+  border-radius: 0px 0px 10px 10px;
+  padding: 10px;
+  margin: 50px 200px;
+  display: flex;
+  flex-direction: row;
+  border-top: 3rem dotted rgb(0, 0, 0);
 }
+.quotes-page__liked,.quotes-page__disliked{
+  border: 3px solid black;
+  margin: 100px auto;
+  border-radius: 20px;
+  padding: 20px;
+  width: 30%;
+  max-height: 85%;
+}
+.quotes-page__liked{
+  background-color:palevioletred;
+}
+.quotes-page__disliked{
+  background-color: #ffde04;
+  color: black;
+}
+.quotes-page__disliked-list,.quotes-page__liked-list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  text-align: left;
+}
+.quotes-page__disliked-list span,.quotes-page__liked-list span{
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.quotes-page__p{
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.black-shadow{
+  text-shadow: 1px 1px 2px #000;
+}
+.white-shadow{
+  text-shadow: 1px 1px 2px #ffffff;
+}
+.quotes-btn{
+    width: 90px;
+    height: 50px;
+    font-size: 12px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 4px solid #ffde04;
+    color: #000;
+    font-weight: 600;
+    text-shadow: 0px 1px 1px #ffde04;
+    padding: 6px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 0;
+  }

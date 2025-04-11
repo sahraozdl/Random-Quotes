@@ -65,21 +65,6 @@ const userReducer = (state, action) => {
   }
 };
 
-/*export const UserProvider = (
-  {
-  initialValue = {id:null , likedQuotes: [], dislikedQuotes: [] },
-  children,
-}) => {
-  const [user, dispatch] = useReducer(userReducer, initialValue);
-
-  return (
-    <UserContext.Provider value={user}>
-      <UserDispatchContext.Provider value={dispatch}>
-        {children}
-      </UserDispatchContext.Provider>
-    </UserContext.Provider>
-  );
-};*/
 export const UserProvider = ({ children }) => {
   const [user, dispatch] = useReducer(userReducer, {
     id: null,
@@ -92,12 +77,25 @@ export const UserProvider = ({ children }) => {
       if (user) {
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: { id: user.uid, likedQuotes: [], dislikedQuotes: [] },
+          payload: {
+            id: user.uid,
+            email: user.email,
+            name: user.displayName,
+            photoURL: user.photoURL,
+            likedQuotes: [],
+            dislikedQuotes: [],
+          },
         });
       } else {
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: { id: null, likedQuotes: [], dislikedQuotes: [] },
+          payload: { 
+            id: null,
+            email: null,
+            name: null,
+            photoURL: null,
+            likedQuotes: [],
+             dislikedQuotes: [] },
         });
       }
     });

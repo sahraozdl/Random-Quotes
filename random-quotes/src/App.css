@@ -76,3 +76,35 @@
     transform: rotate(360deg);
   }
 }
+
+.nav-item{
+  position: relative;
+}
+.dropdown-menu{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  display: none;
+  z-index: 1000;
+}
+.dropdown-menu li{
+  padding:0;
+  list-style: none;
+}
+.dropdown-item{
+  display : block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: wheat;
+}
+.dropdown-item:hover{
+  background-color: #ffde04;
+  color: black;
+  border-radius: 8px;
+}
+.nav-item:hover .dropdown-menu{
+  display: block;
+}
