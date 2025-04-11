@@ -24,7 +24,6 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   const [likedByUser, setLikedByUser] = useState(false);
   const [dislikedByUser, setDislikedByUser] = useState(false);
 
-  // Reference to the specific quote document in Firestore
   const quoteDocRef = doc(db, "quotes", id);
   console.log("Current user:", user);
 
@@ -37,14 +36,14 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
     }
   };
 
-  // Fetch counts when the component mounts or when the quote changes
+  // Fetchs counts when the component mounts or when the quote changes
   useEffect(() => {
-    // Reset the like/dislike states and fetch new counts for the new quote
+    // Resets the like/dislike states and fetch new counts for the new quote
     setLikedByUser(false);
     setDislikedByUser(false);
     getQuoteCounts();
 
-    // Check if the user has already liked or disliked this quote
+    // Checks if the user has already liked or disliked this quote
     if (user?.id) {
       const updatedDoc = getDoc(quoteDocRef).then((updatedDoc) => {
         if (updatedDoc.exists()) {
@@ -54,8 +53,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
         }
       });
     }
-  }, [id, user]); // Re-fetch when the quote ID or user changes
-
+  }, [id, user]);
   // Handle like button click
   async function handleLikeClick() {
     if (!user || !user.id) {
@@ -68,22 +66,20 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       return;
     }
 
-    // Dispatch action to update liked quotes in state
     dispatch({ type: UserActionTypes.UpdateLikedQuotes, payload: { id } });
 
     try {
-      // Add the user ID to likedBy and update likeCount globally
       await updateDoc(quoteDocRef, {
         likedBy: arrayUnion(user.id),
-        dislikedBy: dislikedByUser
-          ? arrayRemove(user.id) // Remove from dislikedBy if the user disliked the quote
-          : [],
+        dislikedBy: dislikedByUser ? arrayRemove(user.id) : [],
+      });
+      await updateDoc(doc(db, "users", user.id), {
+        likedQuotes: arrayUnion(id),
+        dislikedQuotes: arrayRemove(id),
       });
 
-      // Update the global like and dislike counts
       getQuoteCounts();
 
-      // Update local state to reflect the user's action
       setLikedByUser(true);
     } catch (err) {
       console.error("Error liking quote:", err);
@@ -101,20 +97,21 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       return;
     }
 
-    // Dispatch action to update disliked quotes in state
     dispatch({ type: UserActionTypes.UpdateDislikedQuotes, payload: { id } });
 
     try {
-      // Add the user ID to dislikedBy and update dislikeCount globally
       await updateDoc(quoteDocRef, {
         dislikedBy: arrayUnion(user.id),
         likedBy: likedByUser ? arrayRemove(user.id) : [],
       });
 
-      // Update the global like and dislike counts
+      await updateDoc(doc(db, "users", user.id), {
+        dislikedQuotes: arrayUnion(id),
+        likedQuotes: arrayRemove(id),
+      });
+
       getQuoteCounts();
 
-      // Update local state to reflect the user's action
       setDislikedByUser(true);
     } catch (err) {
       console.error("Error disliking quote:", err);
@@ -130,14 +127,14 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
           <button
             className="btn"
             onClick={handleLikeClick}
-            disabled={likedByUser}  // Disable if the user already liked the quote
+            disabled={likedByUser} // Disable if the user already liked the quote
           >
             {likeCount} Like
           </button>
           <button
             className="btn"
             onClick={handleDislikeClick}
-            disabled={dislikedByUser}  // Disable if the user already disliked the quote
+            disabled={dislikedByUser} // Disable if the user already disliked the quote
           >
             {dislikeCount} Dislike
           </button>

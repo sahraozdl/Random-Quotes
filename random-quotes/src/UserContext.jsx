@@ -1,8 +1,8 @@
 import { createContext, useReducer, useEffect } from "react";
-import {
-  onAuthStateChanged
-} from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase/config";
 
 export const UserContext = createContext();
 export const UserDispatchContext = createContext();
@@ -65,39 +65,44 @@ const userReducer = (state, action) => {
   }
 };
 
-/*export const UserProvider = (
-  {
-  initialValue = {id:null , likedQuotes: [], dislikedQuotes: [] },
-  children,
-}) => {
-  const [user, dispatch] = useReducer(userReducer, initialValue);
-
-  return (
-    <UserContext.Provider value={user}>
-      <UserDispatchContext.Provider value={dispatch}>
-        {children}
-      </UserDispatchContext.Provider>
-    </UserContext.Provider>
-  );
-};*/
 export const UserProvider = ({ children }) => {
   const [user, dispatch] = useReducer(userReducer, {
     id: null,
+    name: null,
+    email: null,
+    phone: null,
     likedQuotes: [],
     dislikedQuotes: [],
+    photoURL: null,
+    favoriteCategories: [], // Added here but not sure
   });
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch({
-          type: UserActionTypes.SetUser,
-          payload: { id: user.uid, likedQuotes: [], dislikedQuotes: [] },
-        });
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+      if (authUser) {
+        const userRef = doc(db, "users", authUser.uid);
+        const docSnapshot = await getDoc(userRef);
+
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          dispatch({
+            type: UserActionTypes.SetUser,
+            payload: {
+              id: authUser.uid,
+              email: authUser.email,
+              name: userData.name || authUser.displayName,
+              photoURL: userData.photoURL || authUser.photoURL,
+              phone: userData.phone || "",
+              likedQuotes: userData.likedQuotes || [],
+              dislikedQuotes: userData.dislikedQuotes || [],
+              favoriteCategories: userData.favoriteCategories || [],// Added here but not sure
+            },
+          });
+        }
       } else {
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: { id: null, likedQuotes: [], dislikedQuotes: [] },
+          payload: { id: null },
         });
       }
     });

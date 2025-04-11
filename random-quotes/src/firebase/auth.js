@@ -13,10 +13,13 @@ export const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   const signUp = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const newUser = userCredential.user;
       dispatch({
         type: UserActionTypes.SetUser,
@@ -30,7 +33,11 @@ export const Auth = () => {
 
   const signIn = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
       dispatch({
         type: UserActionTypes.SetUser,
@@ -69,9 +76,15 @@ export const Auth = () => {
         className="input"
       />
       <div className="auth-buttons">
-      <button onClick={signUp} className="btn">Sign Up</button>
-      <button onClick={signIn} className="btn">Sign In</button>
-      <button onClick={logOut} className="btn">Log Out</button>
+        <button onClick={signUp} className="auth-btn">
+          Sign Up
+        </button>
+        <button onClick={signIn} className="auth-btn">
+          Sign In
+        </button>
+        <button onClick={logOut} className="auth-btn">
+          Log Out
+        </button>
       </div>
     </div>
   );

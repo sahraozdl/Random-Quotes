@@ -1,71 +1,70 @@
-import React, { useEffect, useState, useContext } from "react";
-import { db } from "../../firebase/config";
-import { collection, getDocs } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase/config";
 import "./index.css";
 
+const defaultAvatar = "../default-avatar.jpg";
+
 export const UserPage = () => {
-  const  user = useContext(UserContext);
-  const [likedQuotes, setLikedQuotes] = useState([]);
-  const [dislikedQuotes, setDislikedQuotes] = useState([]);
+  const user = useContext(UserContext);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch user data from Firestore on component mount
   useEffect(() => {
-    const fetchLikedAndDislikedQuotes = async () => {
-      if (!user?.id || !Array.isArray(user.likedQuotes) || !Array.isArray(user.dislikedQuotes)) return;
+    console.log("User ID:", user?.id);
+    const fetchUserData = async () => {
+      if (!user?.id) return;
 
-      try {
-        const quotesRef = collection(db, "quotes");
-        const querySnapshot = await getDocs(quotesRef);
+      const userRef = doc(db, "users", user.id);
+      const userSnap = await getDoc(userRef);
 
-        const allQuotes = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setLikedQuotes(allQuotes.filter((quote) => user.likedQuotes.includes(quote.id)));
-        setDislikedQuotes(allQuotes.filter((quote) => user.dislikedQuotes.includes(quote.id)));
-      } catch (error) {
-        console.error("Error fetching quotes:", error);
+      if (userSnap.exists()) {
+        setUserData(userSnap.data());
       }
+      setLoading(false);
     };
 
-    fetchLikedAndDislikedQuotes();
-  }, [user]);
+    fetchUserData();
+  }, [user?.id]);
+
+  if (loading) {
+    return <p>Loading user profile...</p>;
+  }
+
+  if (!userData) {
+    return <p>No user data available.</p>;
+  }
 
   return (
-    <section className="user-page">
-      <div className="user-page__liked">
-        <p className="user-page__p black-shadow">Liked quotes:</p>
-        <ul className="black-shadow user-page__liked-list">
-          {likedQuotes.length > 0 ? (
-            likedQuotes.map((quote) => (
-              <li key={quote.id}>
-                <p>{quote.quote}</p>
-                <span>{quote.author}</span>
-                <hr />
-              </li>
-            ))
-          ) : (
-            <p>No liked quotes yet.</p>
-          )}
-        </ul>
-      </div>
+    <section className="user-page user-page__info">
+      <h2 className="user-page__heading">Your Profile</h2>
 
-      <div className="user-page__disliked">
-        <p className="user-page__p white-shadow">Disliked quotes:</p>
-        <ul className="white-shadow user-page__disliked-list">
-          {dislikedQuotes.length > 0 ? (
-            dislikedQuotes.map((quote) => (
-              <li key={quote.id}>
-                <p>{quote.quote}</p>
-                <span>{quote.author}</span>
-                <hr />
-              </li>
-            ))
-          ) : (
-            <p>No disliked quotes yet.</p>
-          )}
-        </ul>
+      <div className="user-page__card">
+        <img
+          src={user.photoURL || defaultAvatar}
+          alt="User profile"
+          className="user-page__avatar"
+        />
+
+        <div className="user-page__details">
+          <p>
+            <strong>Name:</strong> {userData.name || "No name available"}
+          </p>
+          <p>
+            <strong>Email:</strong> {user.email || "No email available"}
+          </p>
+          <p>
+            <strong>Phone:</strong> {userData.phone || "No phone available"}
+          </p>
+          <p>
+            <strong>User ID:</strong> {user.id}
+          </p>
+          <p>
+            <strong>Favorite Categories:</strong> {userData.favoriteCategories?.join(", ") || "No categories available"}
+          </p>
+        </div>
       </div>
     </section>
   );

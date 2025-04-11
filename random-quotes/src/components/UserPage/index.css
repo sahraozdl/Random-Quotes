@@ -1,46 +1,50 @@
-.user-page {
-  background-color: white;
-  color: rgb(255, 255, 255);
+.user-page__info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+.user-page{
+  background-color: rgb(255, 255, 255);
   border-radius: 0px 0px 10px 10px;
   padding: 10px;
   margin: 50px 200px;
-  display: flex;
-  flex-direction: row;
   border-top: 3rem dotted rgb(0, 0, 0);
+  min-height: 50vh;
+  min-width: 50vw;
 }
-.user-page__liked,.user-page__disliked{
+.user-page__heading{
+  font-size: 24px;
+  font-weight: bold;
+}
+.user-page__card{
+  background-color: rgb(165, 71, 253);
   border: 3px solid black;
-  margin: 100px auto;
+  color: #ffffff;
+  font-weight: 500;
+  margin: 50px auto;
   border-radius: 20px;
-  padding: 20px;
-  width: 30%;
+  padding: 10px;
+  max-width: 70%;
+  min-width: 50%;
   max-height: 85%;
 }
-.user-page__liked{
-  background-color:palevioletred;
+.user-page__avatar{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid black;
+  margin: 0;
+  padding: 0;
 }
-.user-page__disliked{
-  background-color: #ffde04;
-  color: black;
-}
-.user-page__disliked-list,.user-page__liked-list{
+.user-page__details{
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  list-style: none;
   text-align: left;
+  text-decoration:none;
 }
-.user-page__disliked-list span,.user-page__liked-list span{
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-.user-page__p{
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-.black-shadow{
-  text-shadow: 1px 1px 2px #000;
-}
-.white-shadow{
-  text-shadow: 1px 1px 2px #ffffff;
+.user-page__details strong{
+  font-weight: bold;
+  color: #ffde04;
+  text-shadow: 1px 0px 0px #000000;
 }

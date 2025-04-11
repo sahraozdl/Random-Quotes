@@ -18,10 +18,9 @@ export const Home = () => {
         const data = await getDocs(quoteList);
         const quotes = data.docs.map((doc) => ({
           ...doc.data(),
-          id: doc.id, // Add document ID to each quote for unique reference
+          id: doc.id,
         }));
         setQuotes(quotes);
-        // Set a random quote when data is fetched
         setQuoteIndex(Math.floor(Math.random() * quotes.length));
       } catch (err) {
         console.error("Error getting quotes:", err);
@@ -31,15 +30,12 @@ export const Home = () => {
     getQuoteList();
   }, []);
 
-  // Function to get a random quote index
   const getRandomQuoteIndex = () => Math.floor(Math.random() * quotes.length);
 
-  // Function to handle clicking on a new quote
   function handleNewQuoteClick() {
     setQuoteIndex(getRandomQuoteIndex());
   }
 
-  // If quotes are still being fetched, show a loading message
   if (quotes.length === 0) {
     return <p>Loading quotes...</p>;
   }
