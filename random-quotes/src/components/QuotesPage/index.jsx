@@ -48,57 +48,58 @@ export const QuotesPage = () => {
   return (
     <section className="quotes-page">
       <div className="quotes-page__buttons">
-      <button
-        className="quotes-btn"
-        onClick={() => setShowLiked((prev) => !prev)}
-      >
-        Liked Quotes
-      </button>
-      <button
-        className="quotes-btn"
-        onClick={() => setShowDisliked((prev) => !prev)}
-      >
-        Disliked Quotes
-      </button>
+        <button
+          className="quotes-btn"
+          onClick={() => setShowLiked((prev) => !prev)}
+        >
+          Liked Quotes
+        </button>
+        <button
+          className="quotes-btn"
+          onClick={() => setShowDisliked((prev) => !prev)}
+        >
+          Disliked Quotes
+        </button>
       </div>
       <div className="quotes-page__content">
-      {showLiked && (
-        <div className="quotes-page__liked">
-          <p className="quotes-page__p black-shadow">Liked quotes:</p>
-          <ul className="black-shadow quotes-page__liked-list">
-            {likedQuotes.length > 0 ? (
-              likedQuotes.map((quote) => (
-                <li key={quote.id}>
-                  <p>{quote.quote}</p>
-                  <span>{quote.author}</span>
-                  <hr />
-                </li>
-              ))
-            ) : (
-              <p>No liked quotes yet.</p>
-            )}
-          </ul>
-        </div>
-      )}
+        {showLiked && (
+          <div className="quotes-page__liked">
+            <p className="quotes-page__p black-shadow">Liked quotes:</p>
+            <ul className="black-shadow quotes-page__liked-list">
+              {likedQuotes.length > 0 ? (
+                likedQuotes.map((quote) => (
+                  <li key={quote.id}>
+                    <p>{quote.quote}</p>
+                    <span>{quote.author}</span>
+                    <hr />
+                  </li>
+                ))
+              ) : (
+                <p>No liked quotes yet.</p>
+              )}
+            </ul>
+          </div>
+        )}
 
-      {showDisliked && (
-        <div className="quotes-page__disliked">
-          <p className="quotes-page__p white-shadow">Disliked quotes:</p>
-          <ul className="white-shadow quotes-page__disliked-list">
-            {dislikedQuotes.length > 0 ? (
-              dislikedQuotes.map((quote) => (
-                <li key={quote.id}>
-                  <p>{quote.quote}</p>
-                  <span>{quote.author}</span>
-                  <hr />
-                </li>
-              ))
-            ) : (
-              <p>No disliked quotes yet.</p>
-            )}
-          </ul>
-        </div>
-      )}</div>
+        {showDisliked && (
+          <div className="quotes-page__disliked">
+            <p className="quotes-page__p white-shadow">Disliked quotes:</p>
+            <ul className="white-shadow quotes-page__disliked-list">
+              {dislikedQuotes.length > 0 ? (
+                dislikedQuotes.map((quote) => (
+                  <li key={quote.id}>
+                    <p>{quote.quote}</p>
+                    <span>{quote.author}</span>
+                    <hr />
+                  </li>
+                ))
+              ) : (
+                <p>No disliked quotes yet.</p>
+              )}
+            </ul>
+          </div>
+        )}
+      </div>
     </section>
   );
 };

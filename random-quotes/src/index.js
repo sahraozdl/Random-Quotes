@@ -4,14 +4,14 @@ import "./index.css";
 import App from "./App";
 import { UserProvider } from "./UserContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { db } from "./firebase/config"; // Assuming you have your firebase config here
+import { db } from "./firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 import { BrowserRouter } from "react-router";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const AppWrapper = () => {
-  const [user, setUser] = useState(null); // Store user data here
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Listen to authentication state changes
@@ -31,17 +31,18 @@ const AppWrapper = () => {
             email: firebaseUser.email,
             likedQuotes: userData.likedQuotes || [],
             dislikedQuotes: userData.dislikedQuotes || [],
+            favoriteCategories: userData.favoriteCategories || [],
+            phone: userData.phone || "",
           });
         }
       } else {
-        // User is not logged in
+        // if user is not logged in
         setUser(null);
       }
-      setLoading(false); // Data is now fetched
+      setLoading(false); // Data fetched
     });
   }, []);
 
-  // If data is loading or no user is logged in, you can display a loading spinner or login form
   if (loading) {
     return <div>Loading...</div>;
   }

@@ -1,5 +1,4 @@
 import "./App.css";
-import { useState } from "react";
 import { AppRouter } from "./AppRoute";
 //import { useNavigate } from "react-router";
 import { NavLink } from "react-router";
@@ -29,7 +28,7 @@ function App() {
               </li>
               <li>
                 <NavLink to="/user/quotes" className="dropdown-item">
-                Quotes
+                  Quotes
                 </NavLink>
               </li>
             </ul>

@@ -61,6 +61,9 @@ export const UserPage = () => {
           <p>
             <strong>User ID:</strong> {user.id}
           </p>
+          <p>
+            <strong>Favorite Categories:</strong> {userData.favoriteCategories?.join(", ") || "No categories available"}
+          </p>
         </div>
       </div>
     </section>

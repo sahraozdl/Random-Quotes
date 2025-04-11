@@ -74,6 +74,7 @@ export const UserProvider = ({ children }) => {
     likedQuotes: [],
     dislikedQuotes: [],
     photoURL: null,
+    favoriteCategories: [], // Added here but not sure
   });
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export const UserProvider = ({ children }) => {
               phone: userData.phone || "",
               likedQuotes: userData.likedQuotes || [],
               dislikedQuotes: userData.dislikedQuotes || [],
+              favoriteCategories: userData.favoriteCategories || [],// Added here but not sure
             },
           });
         }
