@@ -5,6 +5,7 @@ import { Login } from "./components/Login";
 import { ProtectedRoute } from "./ProtectedRouter";
 import { QuotePage } from "./components/QuotePage";
 import { QuotesPage } from "./components/QuotesPage";
+import { Settings } from "./components/Settings";
 
 export const AppRouter = () => {
   return (
@@ -13,10 +14,18 @@ export const AppRouter = () => {
 
       <Route path="user">
         <Route
-          path="settings"
+          path="profile"
           element={
             <ProtectedRoute>
               <UserPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute>
           }
         />

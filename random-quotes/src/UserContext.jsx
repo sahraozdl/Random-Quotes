@@ -1,8 +1,8 @@
 import { createContext, useReducer, useEffect } from "react";
-import {
-  onAuthStateChanged
-} from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase/config";
 
 export const UserContext = createContext();
 export const UserDispatchContext = createContext();
@@ -68,34 +68,39 @@ const userReducer = (state, action) => {
 export const UserProvider = ({ children }) => {
   const [user, dispatch] = useReducer(userReducer, {
     id: null,
+    name: null,
+    email: null,
+    phone: null,
     likedQuotes: [],
     dislikedQuotes: [],
+    photoURL: null,
   });
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch({
-          type: UserActionTypes.SetUser,
-          payload: {
-            id: user.uid,
-            email: user.email,
-            name: user.displayName,
-            photoURL: user.photoURL,
-            likedQuotes: [],
-            dislikedQuotes: [],
-          },
-        });
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+      if (authUser) {
+        const userRef = doc(db, "users", authUser.uid);
+        const docSnapshot = await getDoc(userRef);
+
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          dispatch({
+            type: UserActionTypes.SetUser,
+            payload: {
+              id: authUser.uid,
+              email: authUser.email,
+              name: userData.name || authUser.displayName,
+              photoURL: userData.photoURL || authUser.photoURL,
+              phone: userData.phone || "",
+              likedQuotes: userData.likedQuotes || [],
+              dislikedQuotes: userData.dislikedQuotes || [],
+            },
+          });
+        }
       } else {
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: { 
-            id: null,
-            email: null,
-            name: null,
-            photoURL: null,
-            likedQuotes: [],
-             dislikedQuotes: [] },
+          payload: { id: null },
         });
       }
     });

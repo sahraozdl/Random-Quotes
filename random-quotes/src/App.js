@@ -18,7 +18,7 @@ function App() {
             </NavLink>
           </li>
           <li className="nav-item dropdown">
-            <NavLink to="/user/settings" className="nav-btn" end>
+            <NavLink to="/user/profile" className="nav-btn" end>
               Profile
             </NavLink>
             <ul className="dropdown-menu">

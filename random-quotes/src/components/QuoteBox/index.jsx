@@ -79,6 +79,10 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
           ? arrayRemove(user.id) // Remove from dislikedBy if the user disliked the quote
           : [],
       });
+      await updateDoc(doc(db, "users", user.id), {
+        likedQuotes: arrayUnion(id),
+        dislikedQuotes: arrayRemove(id),
+      });
 
       // Update the global like and dislike counts
       getQuoteCounts();
@@ -109,6 +113,11 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       await updateDoc(quoteDocRef, {
         dislikedBy: arrayUnion(user.id),
         likedBy: likedByUser ? arrayRemove(user.id) : [],
+      });
+
+      await updateDoc(doc(db, "users", user.id), {
+        dislikedQuotes: arrayUnion(id),
+        likedQuotes: arrayRemove(id),
       });
 
       // Update the global like and dislike counts
