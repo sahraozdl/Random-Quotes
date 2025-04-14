@@ -24,8 +24,10 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   const [likedByUser, setLikedByUser] = useState(false);
   const [dislikedByUser, setDislikedByUser] = useState(false);
 
+  // Reference to the specific quote document in Firestore
   const quoteDocRef = doc(db, "quotes", id);
   console.log("Current user:", user);
+  console.log("Current quote:", quote);
 
   const getQuoteCounts = async () => {
     const updatedDoc = await getDoc(quoteDocRef);
@@ -62,6 +64,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
     }
 
     if (likedByUser) {
+      // Don't only console log the error. Show a warning message on the page so user can see it.The message doesnt work either.
       console.log("You have already liked this quote.");
       return;
     }
@@ -82,6 +85,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
 
       setLikedByUser(true);
     } catch (err) {
+      // You can use a state variable to show the error message on the UI
       console.error("Error liking quote:", err);
     }
   }
