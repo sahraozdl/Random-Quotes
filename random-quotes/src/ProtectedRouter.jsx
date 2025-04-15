@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { UserContext } from "./UserContext";
 
 export const ProtectedRoute = ({ children }) => {
-  const user  = useContext(UserContext);
+  const {user}  = useContext(UserContext);
 
   const isUserLoggedIn = !!user?.id;
 

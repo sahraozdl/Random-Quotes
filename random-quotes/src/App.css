@@ -16,6 +16,7 @@
   align-items: center;
   padding: 1rem;
   list-style-type: none;
+  margin: 0;
 }
 .nav-btn{
   background:none;
@@ -107,4 +108,13 @@
 }
 .nav-item:hover .dropdown-menu{
   display: block;
+}
+.user_messagge{
+  color: #ffde04;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 5px 20px;
+  text-decoration: none;
+  margin: 0;
+  text-align: left;
 }
