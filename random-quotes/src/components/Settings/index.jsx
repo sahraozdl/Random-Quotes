@@ -6,7 +6,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/config";
 
 export const Settings = () => {
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");

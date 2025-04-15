@@ -1,11 +1,36 @@
 import "./App.css";
 import { AppRouter } from "./AppRoute";
-//import { useNavigate } from "react-router";
 import { NavLink } from "react-router";
+import { useContext, useState } from "react";
+import {
+  UserContext,
+  UserActionTypes,
+  UserDispatchContext,
+} from "./UserContext";
+import { auth } from "./firebase/config";
+import { signOut } from "firebase/auth";
 
 function App() {
-  //const navigate = useNavigate();
-  //const [quotes, SetQuotes] = useState([]);
+  const { user } = useContext(UserContext);
+  const dispatch = useContext(UserDispatchContext);
+  const [userLoggedOutMessagge, setUserLoggedOutMessagge] = useState("");
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      dispatch({
+        type: UserActionTypes.SetUser,
+        payload: null,
+      });
+      setUserLoggedOutMessagge("User logged out successfully.");
+      setTimeout(() => {
+        setUserLoggedOutMessagge("");
+      }, 3000); // Clear message after 3 seconds
+      console.log("User logged out successfully.");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
 
   return (
     <div className="App">
@@ -33,16 +58,25 @@ function App() {
               </li>
             </ul>
           </li>
-          <li>
-            <NavLink to="/user/login" className="nav-btn" end>
-              Login
-            </NavLink>
-          </li>
-          <li>
-            <button className="nav-btn">Logout</button>
-          </li>
+          {!user && (
+            <li>
+              <NavLink to="/user/login" className="nav-btn" end>
+                Login
+              </NavLink>
+            </li>
+          )}
+          {user && (
+            <li>
+              <button className="nav-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
+      {userLoggedOutMessagge && (
+        <p className="user_messagge">{userLoggedOutMessagge}</p>
+      )}
       <AppRouter />
     </div>
   );

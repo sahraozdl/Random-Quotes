@@ -7,7 +7,7 @@ import { UserContext } from "../../UserContext";
 import "./index.css";
 
 export const QuotesPage = () => {
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const [likedQuotes, setLikedQuotes] = useState([]);
   const [dislikedQuotes, setDislikedQuotes] = useState([]);
   const [showLiked, setShowLiked] = useState(false);

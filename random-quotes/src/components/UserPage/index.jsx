@@ -7,7 +7,7 @@ import "./index.css";
 const defaultAvatar = "../default-avatar.jpg";
 
 export const UserPage = () => {
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 

@@ -95,14 +95,14 @@ export const UserProvider = ({ children }) => {
               phone: userData.phone || "",
               likedQuotes: userData.likedQuotes || [],
               dislikedQuotes: userData.dislikedQuotes || [],
-              favoriteCategories: userData.favoriteCategories || [],// Added here but not sure
+              favoriteCategories: userData.favoriteCategories || [], // Added here but not sure
             },
           });
         }
       } else {
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: { id: null },
+          payload: null,
         });
       }
     });
@@ -111,7 +111,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{ user, dispatch }}>
       <UserDispatchContext.Provider value={dispatch}>
         {children}
       </UserDispatchContext.Provider>

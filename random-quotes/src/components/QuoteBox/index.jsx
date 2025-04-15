@@ -15,7 +15,7 @@ import {
 import { db } from "../../firebase/config";
 
 export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
 
   const [likeCount, setLikeCount] = useState(0);
@@ -23,6 +23,9 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
 
   const [likedByUser, setLikedByUser] = useState(false);
   const [dislikedByUser, setDislikedByUser] = useState(false);
+
+  const [userMessage, setUserMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Reference to the specific quote document in Firestore
   const quoteDocRef = doc(db, "quotes", id);
@@ -60,12 +63,21 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   async function handleLikeClick() {
     if (!user || !user.id) {
       console.log("User is not logged in");
+      setErrorMessage("User is not logged in.");
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000); // Clear message after 3 seconds
       return;
     }
 
     if (likedByUser) {
       // Don't only console log the error. Show a warning message on the page so user can see it.The message doesnt work either.
       console.log("You have already liked this quote.");
+      setUserMessage("You have already liked this quote.");
+      setTimeout(() => {
+        setUserMessage("");
+      }
+      , 3000); // Clear message after 3 seconds
       return;
     }
 
@@ -93,11 +105,20 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   async function handleDislikeClick() {
     if (!user || !user.id) {
       console.log("User is not logged in");
+      setErrorMessage("User is not logged in.");
+      setTimeout(() => {
+        setErrorMessage("");
+      }
+      , 3000); // Clear message after 3 seconds
       return;
     }
 
     if (dislikedByUser) {
       console.log("You have already disliked this quote.");
+      setUserMessage("You have already disliked this quote.");
+      setTimeout(() => {
+        setUserMessage("");
+      }, 3000); // Clear message after 3 seconds
       return;
     }
 
@@ -147,6 +168,8 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
           New Quote
         </button>
       </div>
+      <span className="quote-box__error">{errorMessage}</span>
+      <span className="quote-box__message">{userMessage}</span>
     </div>
   );
 }
