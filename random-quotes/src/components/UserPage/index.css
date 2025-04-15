@@ -13,38 +13,3 @@
   min-height: 50vh;
   min-width: 50vw;
 }
-.user-page__heading{
-  font-size: 24px;
-  font-weight: bold;
-}
-.user-page__card{
-  background-color: rgb(165, 71, 253);
-  border: 3px solid black;
-  color: #ffffff;
-  font-weight: 500;
-  margin: 50px auto;
-  border-radius: 20px;
-  padding: 10px;
-  max-width: 70%;
-  min-width: 50%;
-  max-height: 85%;
-}
-.user-page__avatar{
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 1px solid black;
-  margin: 0;
-  padding: 0;
-}
-.user-page__details{
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  text-decoration:none;
-}
-.user-page__details strong{
-  font-weight: bold;
-  color: #ffde04;
-  text-shadow: 1px 0px 0px #000000;
-}

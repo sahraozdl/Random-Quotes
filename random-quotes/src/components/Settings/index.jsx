@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../UserContext";
-import "./index.css";
 import { doc, setDoc, getDoc, getDocs, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/config";
+
+const defaultAvatar = "../default-avatar.jpg";
 
 export const Settings = () => {
   const {user} = useContext(UserContext);
@@ -117,21 +118,21 @@ export const Settings = () => {
   if (loading) return <p>Loading user settings...</p>;
 
   return (
-    <section className="user-page user-page__settings">
-      <h2 className="user-page__heading">Account Settings</h2>
+    <section class="container ">
+      <h2 class="text-2xl font-bold">Account Settings</h2>
 
-      <div className="user-page__card">
+      <div class="inner-container">
         {previewImage && (
           <img
             src={previewImage}
             alt="User avatar"
-            className="user-page__avatar"
+            class="w-20 h-20 rounded-full m-0 p-0"
           />
         )}
 
-        <div className="user-page__details">
+        <div className="flex flex-col text-left decoration-none">
           <label>
-            <strong>Username:</strong>
+            <strong class="block">Username:</strong>
             <input
               type="text"
               value={name}
@@ -142,7 +143,7 @@ export const Settings = () => {
           </label>
 
           <label>
-            <strong>Phone:</strong>
+            <strong class="block">Phone:</strong>
             <input
               type="tel"
               value={phone}
@@ -153,7 +154,7 @@ export const Settings = () => {
           </label>
 
           <label>
-            <strong>Upload Profile Picture:</strong>
+            <strong class="block">Upload Profile Picture:</strong>
             <input
               type="file"
               accept="image/*"
@@ -163,7 +164,7 @@ export const Settings = () => {
           </label>
 
           <label>
-            <strong>Favorite Categories:</strong>
+            <strong class="block">Favorite Categories:</strong>
             <select
               multiple
               value={selectedCategories}
@@ -178,7 +179,7 @@ export const Settings = () => {
             </select>
           </label>
 
-          <button onClick={handleSave} className="user-page__button">
+          <button onClick={handleSave} class="btn-yellow">
             Save Settings
           </button>
         </div>

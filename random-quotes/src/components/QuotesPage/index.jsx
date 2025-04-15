@@ -4,7 +4,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { UserContext } from "../../UserContext";
-import "./index.css";
 
 export const QuotesPage = () => {
   const {user} = useContext(UserContext);
@@ -46,31 +45,32 @@ export const QuotesPage = () => {
   }, [user]);
 
   return (
-    <section className="quotes-page">
-      <div className="quotes-page__buttons">
+    <section className="container">
+      <div className="inner-container">
+      <div class="flex flex-row justify-evenly gap-2 mx-auto my-0">
         <button
-          className="quotes-btn"
+          className="btn-yellow"
           onClick={() => setShowLiked((prev) => !prev)}
         >
           Liked Quotes
         </button>
         <button
-          className="quotes-btn"
+          className="btn-yellow"
           onClick={() => setShowDisliked((prev) => !prev)}
         >
           Disliked Quotes
         </button>
       </div>
-      <div className="quotes-page__content">
+      <div class="flex flex-row gap-2 justify-center p-5 m-0">
         {showLiked && (
-          <div className="quotes-page__liked">
-            <p className="quotes-page__p black-shadow">Liked quotes:</p>
-            <ul className="black-shadow quotes-page__liked-list">
+          <div className="quotes-box">
+            <p class="text-yellow-300 font-bold text-xl">Liked quotes:</p>
+            <ul class="text-left px-2">
               {likedQuotes.length > 0 ? (
                 likedQuotes.map((quote) => (
-                  <li key={quote.id}>
+                  <li key={quote.id} class="py-2">
                     <p>{quote.quote}</p>
-                    <span>{quote.author}</span>
+                    <span>-{quote.author}</span>
                     <hr />
                   </li>
                 ))
@@ -82,14 +82,14 @@ export const QuotesPage = () => {
         )}
 
         {showDisliked && (
-          <div className="quotes-page__disliked">
-            <p className="quotes-page__p white-shadow">Disliked quotes:</p>
-            <ul className="white-shadow quotes-page__disliked-list">
+          <div className="quotes-box">
+            <p class="text-yellow-300 font-bold text-xl">Disliked quotes:</p>
+            <ul class="text-left px-2">
               {dislikedQuotes.length > 0 ? (
                 dislikedQuotes.map((quote) => (
-                  <li key={quote.id}>
+                  <li key={quote.id} class="py-2">
                     <p>{quote.quote}</p>
-                    <span>{quote.author}</span>
+                    <span>-{quote.author}</span>
                     <hr />
                   </li>
                 ))
@@ -99,6 +99,7 @@ export const QuotesPage = () => {
             </ul>
           </div>
         )}
+      </div>
       </div>
     </section>
   );

@@ -1,4 +1,3 @@
-import "./styles.css";
 import {
   UserActionTypes,
   UserContext,
@@ -15,7 +14,7 @@ import {
 import { db } from "../../firebase/config";
 
 export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
 
   const [likeCount, setLikeCount] = useState(0);
@@ -71,13 +70,12 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
     }
 
     if (likedByUser) {
-      // Don't only console log the error. Show a warning message on the page so user can see it.The message doesnt work either.
+      //The message doesnt work either.Because the button disabled.
       console.log("You have already liked this quote.");
       setUserMessage("You have already liked this quote.");
       setTimeout(() => {
         setUserMessage("");
-      }
-      , 3000); // Clear message after 3 seconds
+      }, 3000); // Clear message after 3 seconds
       return;
     }
 
@@ -97,7 +95,10 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
 
       setLikedByUser(true);
     } catch (err) {
-      // You can use a state variable to show the error message on the UI
+      setErrorMessage("Error liking quote. Please try again.");
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000); // Clear message after 3 seconds
       console.error("Error liking quote:", err);
     }
   }
@@ -108,8 +109,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       setErrorMessage("User is not logged in.");
       setTimeout(() => {
         setErrorMessage("");
-      }
-      , 3000); // Clear message after 3 seconds
+      }, 3000); // Clear message after 3 seconds
       return;
     }
 
@@ -139,37 +139,41 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
 
       setDislikedByUser(true);
     } catch (err) {
+      setErrorMessage("Error disliking quote. Please try again.");
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
       console.error("Error disliking quote:", err);
     }
   }
 
   return (
-    <div className="quote-box">
-      <p className="quote-box__quote">{quote}</p>
-      <span className="quote-box__author">{author}</span>
-      <div className="quote-box__btns">
-        <div className="quote-box__actions">
+    <div className="quote-container">
+      <p className="quote">{quote}</p>
+      <span class="quote text-right">{author}</span>
+      <div class="flex flex-row-reverse justify-between py-4">
+        <div class="flex justify-center items-center gap-2 py-0 px-4">
           <button
-            className="btn"
+            className="btn-yellow"
             onClick={handleLikeClick}
             disabled={likedByUser} // Disable if the user already liked the quote
           >
             {likeCount} Like
           </button>
           <button
-            className="btn"
+            className="btn-yellow"
             onClick={handleDislikeClick}
             disabled={dislikedByUser} // Disable if the user already disliked the quote
           >
             {dislikeCount} Dislike
           </button>
         </div>
-        <button className="btn" onClick={onNewQuoteClick}>
+        <button className="btn-yellow" onClick={onNewQuoteClick}>
           New Quote
         </button>
       </div>
-      <span className="quote-box__error">{errorMessage}</span>
-      <span className="quote-box__message">{userMessage}</span>
+      <span className="messages">{errorMessage}</span>
+      <span className="messages">{userMessage}</span>
     </div>
   );
 }
