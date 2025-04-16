@@ -121,7 +121,7 @@ export const Settings = () => {
     <section class="container ">
       <h2 class="text-2xl font-bold">Account Settings</h2>
 
-      <div class="inner-container">
+      <div class="inner-container w-1/2">
         {previewImage && (
           <img
             src={previewImage}
@@ -169,7 +169,7 @@ export const Settings = () => {
               multiple
               value={selectedCategories}
               onChange={handleCategoryChange}
-              className="user-page__input user-page__select"
+              className="user-page__input"
             >
               {categories.map((category) => (
                 <option key={category} value={category}>

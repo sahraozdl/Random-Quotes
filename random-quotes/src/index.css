@@ -40,9 +40,6 @@ code {
     @apply bg-indigo-900 text-white rounded-lg p-5 my-2 mx-0 max-w-full max-h-64 overflow-y-auto overflow-x-hidden ;
   }
   .user-page__input{
-    @apply max-w-72 min-w-64 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black;
-  }
-  .user-page__select{
-    @apply max-w-72  min-w-64 h-10 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black ;
+    @apply max-w-72 min-w-64 max-h-9 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black;
   }
 }

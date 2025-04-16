@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
-import "./index.css";
 
 const defaultAvatar = "../default-avatar.jpg";
 
@@ -38,17 +37,17 @@ export const UserPage = () => {
   }
 
   return (
-    <section className="user-page user-page__info">
-      <h2 className="user-page__heading">Your Profile</h2>
+    <section class="container">
+      <h2 class="text-2xl font-bold">Your Profile</h2>
 
-      <div className="user-page__card">
+      <div class="inner-container w-1/2">
         <img
           src={user.photoURL || defaultAvatar}
           alt="User profile"
-          className="user-page__avatar"
+          class="w-20 h-20 rounded-full my-0 mx-auto p-0"
         />
 
-        <div className="user-page__details">
+        <div className="flex flex-col text-left px-20 gap-1">
           <p>
             <strong>Name:</strong> {userData.name || "No name available"}
           </p>
