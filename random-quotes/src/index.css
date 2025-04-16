@@ -16,3 +16,30 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-yellow {
+    @apply w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300;
+  }
+  .messages {
+    @apply text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl;
+  }
+  .quote-container {
+    @apply flex flex-col justify-between h-52 py-5 px-1 font-normal ;
+  }
+  .quote {
+    @apply text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold;
+  }
+  .container{
+    @apply bg-white rounded-lg p-10 my-12 mx-auto max-h-full
+  }
+  .inner-container {
+    @apply bg-indigo-400 border-indigo-950 border-4 rounded-lg p-5 m-auto max-w-full max-h-96 min-h-96;
+  }
+  .quotes-box{
+    @apply bg-indigo-900 text-white rounded-lg p-5 my-2 mx-0 max-w-full max-h-64 overflow-y-auto overflow-x-hidden ;
+  }
+  .user-page__input{
+    @apply max-w-72 min-w-64 max-h-9 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black;
+  }
+}

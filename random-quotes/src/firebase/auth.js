@@ -90,7 +90,7 @@ export const Auth = () => {
         className="input"
       />
 
-      <button type="submit" className="auth-btn">
+      <button type="submit" className="btn-yellow">
         {isSignUp ? "Sign Up" : "Sign In"}
       </button>
 
