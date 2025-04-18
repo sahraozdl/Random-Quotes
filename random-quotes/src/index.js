@@ -25,6 +25,7 @@ const AppWrapper = () => {
 
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
+          console.log("User data from Firestore:", userData);
           setUser({
             id: firebaseUser.uid,
             name: firebaseUser.displayName || "Anonymous",

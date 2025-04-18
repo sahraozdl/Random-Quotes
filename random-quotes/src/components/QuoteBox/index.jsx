@@ -150,9 +150,9 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   return (
     <div className="quote-container">
       <p className="quote">{quote}</p>
-      <span class="quote text-right">{author}</span>
-      <div class="flex flex-row-reverse justify-between py-4">
-        <div class="flex justify-center items-center gap-2 py-0 px-4">
+      <span className="quote text-right">{author}</span>
+      <div className="flex flex-row-reverse justify-between py-4">
+        <div className="flex justify-center items-center gap-2 py-0 px-4">
           <button
             className="btn-yellow"
             onClick={handleLikeClick}

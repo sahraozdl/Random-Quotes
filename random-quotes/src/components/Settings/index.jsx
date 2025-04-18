@@ -7,7 +7,7 @@ import { db, storage } from "../../firebase/config";
 const defaultAvatar = "../default-avatar.jpg";
 
 export const Settings = () => {
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -118,21 +118,21 @@ export const Settings = () => {
   if (loading) return <p>Loading user settings...</p>;
 
   return (
-    <section class="container ">
-      <h2 class="text-2xl font-bold">Account Settings</h2>
+    <section className="container ">
+      <h2 className="text-2xl font-bold">Account Settings</h2>
 
-      <div class="inner-container w-1/2">
+      <div className="inner-container w-1/2">
         {previewImage && (
           <img
             src={previewImage}
             alt="User avatar"
-            class="w-20 h-20 rounded-full m-0 p-0"
+            className="w-20 h-20 rounded-full m-0 p-0"
           />
         )}
 
         <div className="flex flex-col text-left decoration-none">
           <label>
-            <strong class="block">Username:</strong>
+            <strong className="block">Username:</strong>
             <input
               type="text"
               value={name}
@@ -143,7 +143,7 @@ export const Settings = () => {
           </label>
 
           <label>
-            <strong class="block">Phone:</strong>
+            <strong className="block">Phone:</strong>
             <input
               type="tel"
               value={phone}
@@ -154,7 +154,7 @@ export const Settings = () => {
           </label>
 
           <label>
-            <strong class="block">Upload Profile Picture:</strong>
+            <strong className="block">Upload Profile Picture:</strong>
             <input
               type="file"
               accept="image/*"
@@ -164,7 +164,7 @@ export const Settings = () => {
           </label>
 
           <label>
-            <strong class="block">Favorite Categories:</strong>
+            <strong className="block">Favorite Categories:</strong>
             <select
               multiple
               value={selectedCategories}
@@ -179,7 +179,7 @@ export const Settings = () => {
             </select>
           </label>
 
-          <button onClick={handleSave} class="btn-yellow">
+          <button onClick={handleSave} className="btn-yellow">
             Save Settings
           </button>
         </div>
