@@ -6,6 +6,8 @@ import {
 } from "firebase/auth";
 import { auth } from "./config";
 import { UserActionTypes, UserDispatchContext } from "../UserContext";
+import { setDoc,doc } from "firebase/firestore";
+import { db } from "./config";
 
 export const Auth = () => {
   const dispatch = useContext(UserDispatchContext);
@@ -43,6 +45,20 @@ export const Auth = () => {
           password
         );
         const user = userCredential.user;
+        await setDoc(
+          doc(db, "users", user.uid),
+          { 
+            id: user.uid,
+            name: "Anonymous",
+            email: user.email,
+            likedQuotes: [],
+            dislikedQuotes: [],
+            favoriteCategories: [],
+            phone: "",
+            photoURL: null,
+          }
+        );
+
         dispatch({
           type: UserActionTypes.SetUser,
           payload: { id: user.uid, email: user.email },

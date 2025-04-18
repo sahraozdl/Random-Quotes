@@ -3,6 +3,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase/config";
+import { useState } from "react";
 
 export const UserContext = createContext();
 export const UserDispatchContext = createContext();
@@ -77,6 +78,8 @@ export const UserProvider = ({ children }) => {
     favoriteCategories: [], // Added here but not sure
   });
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
@@ -105,13 +108,14 @@ export const UserProvider = ({ children }) => {
           payload: null,
         });
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, dispatch }}>
+    <UserContext.Provider value={{ user,loading, dispatch }}>
       <UserDispatchContext.Provider value={dispatch}>
         {children}
       </UserDispatchContext.Provider>

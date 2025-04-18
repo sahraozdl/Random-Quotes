@@ -25,6 +25,8 @@ const AppWrapper = () => {
 
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
+          //I added to see userData null or not
+          console.log("User data from Firestore:", userData);
           setUser({
             id: firebaseUser.uid,
             name: firebaseUser.displayName || "Anonymous",
@@ -33,6 +35,7 @@ const AppWrapper = () => {
             dislikedQuotes: userData.dislikedQuotes || [],
             favoriteCategories: userData.favoriteCategories || [],
             phone: userData.phone || "",
+            photoURL: userData.photoURL || null,
           });
         }
       } else {
