@@ -1,5 +1,4 @@
-import "./index.css";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext} from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -70,8 +69,9 @@ export const Auth = () => {
   };
 
   return (
-    <form className="auth-container" onSubmit={handleSubmit}>
-      <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>
+    <form className="flex flex-col justify-center items-center
+    h-3/6" onSubmit={handleSubmit}>
+      <h2 className="text-2xl font-bold mb-5">{isSignUp ? "Sign Up" : "Sign In"}</h2>
 
       <label htmlFor="email">Email</label>
       <input
@@ -94,11 +94,11 @@ export const Auth = () => {
         {isSignUp ? "Sign Up" : "Sign In"}
       </button>
 
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="messages">{error}</p>}
 
-      {successMessage && <p className="success-message">{successMessage}</p>}
+      {successMessage && <p className="smessages">{successMessage}</p>}
 
-      <p className="toggle-auth">
+      <p className="text-xl my-4">
         {isSignUp ? (
           <>
             Already have an account?{" "}

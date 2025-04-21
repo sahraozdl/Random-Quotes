@@ -42,4 +42,37 @@ code {
   .user-page__input{
     @apply max-w-72 min-w-64 max-h-9 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black;
   }
+  .input{
+    @apply w-1/2 p-2 rounded border-solid mb-2
+  }
+  .link{
+    @apply underline text-black font-bold text-lg cursor-pointer
+  }
+  .App{
+    @apply text-center bg-black w-full m-0 p-0 h-full text-lg
+  }
+  .nav--top--list{
+    @apply flex flex-row justify-end gap-4 items-center p-4 list-none mt-4
+  }
+  .nav-btn{
+    @apply bg-none border-none text-white text-2xl font-bold py-3 px-5 rounded-lg no-underline focus:bg-yellow-400 focus:text-black hover:cursor-pointer  hover:bg-yellow-400 hover:text-black
+  }
+  .nav-item{
+    @apply relative 
+  }
+  .nav-item:hover .dropdown-menu{
+    @apply block
+  }
+  .dropdown-menu{
+    @apply absolute top-full left-0 bg-slate-900 text-white mt-3 w-full rounded-md p-3 hidden z-50 
+  }
+  .dropdown-menu li{
+    @apply px-0 py-1 list-none
+  }
+  .dropdown-item{
+    @apply block py-2 px-4 no-underline text-yellow-200 hover:bg-yellow-400 hover:text-black hover:rounded-lg
+  }
+  .user_messagge{
+    @apply text-yellow-400 text-base font-bold py-1 px-5 m-0 text-left
+  }
 }
