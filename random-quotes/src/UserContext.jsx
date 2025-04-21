@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
 import { doc, getDoc } from "firebase/firestore";
@@ -77,6 +77,8 @@ export const UserProvider = ({ children }) => {
     favoriteCategories: [], // Added here but not sure
   });
 
+  const [loading,setLoading] = useState(true);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
@@ -85,6 +87,7 @@ export const UserProvider = ({ children }) => {
 
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
+          console.log("User data from Firestore:", userData);
           dispatch({
             type: UserActionTypes.SetUser,
             payload: {
@@ -105,13 +108,14 @@ export const UserProvider = ({ children }) => {
           payload: null,
         });
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, dispatch }}>
+    <UserContext.Provider value={{ user, loading, dispatch }}>
       <UserDispatchContext.Provider value={dispatch}>
         {children}
       </UserDispatchContext.Provider>
