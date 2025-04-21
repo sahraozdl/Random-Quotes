@@ -1,10 +1,11 @@
 import { useState, useContext} from "react";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  signInWithEmailAndPassword
 } from "firebase/auth";
-import { auth } from "./config";
+import { auth, db } from "./config";
 import { UserActionTypes, UserDispatchContext } from "../UserContext";
+import { setDoc, doc } from "firebase/firestore";
 
 export const Auth = () => {
   const dispatch = useContext(UserDispatchContext);
@@ -42,6 +43,19 @@ export const Auth = () => {
           password
         );
         const user = userCredential.user;
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            id:user.uid,
+            name:"",
+            email:user.email,
+            likedQuotes:[],
+            dislikedQuotes:[],
+            favoriteCategories:[],
+            phone:"",
+            photoURL:null,
+          }
+        );
         dispatch({
           type: UserActionTypes.SetUser,
           payload: { id: user.uid, email: user.email },
