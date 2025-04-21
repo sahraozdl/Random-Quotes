@@ -6,7 +6,7 @@ import { db } from "../../firebase/config";
 const defaultAvatar = "../default-avatar.jpg";
 
 export const UserPage = () => {
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,14 +37,14 @@ export const UserPage = () => {
   }
 
   return (
-    <section class="container">
-      <h2 class="text-2xl font-bold">Your Profile</h2>
+    <section className="container">
+      <h2 className="text-2xl font-bold">Your Profile</h2>
 
-      <div class="inner-container w-1/2">
+      <div className="inner-container w-1/2">
         <img
           src={user.photoURL || defaultAvatar}
           alt="User profile"
-          class="w-20 h-20 rounded-full my-0 mx-auto p-0"
+          className="w-20 h-20 rounded-full my-0 mx-auto p-0"
         />
 
         <div className="flex flex-col text-left px-20 gap-1">
@@ -61,7 +61,9 @@ export const UserPage = () => {
             <strong>User ID:</strong> {user.id}
           </p>
           <p>
-            <strong>Favorite Categories:</strong> {userData.favoriteCategories?.join(", ") || "No categories available"}
+            <strong>Favorite Categories:</strong>{" "}
+            {userData.favoriteCategories?.join(", ") ||
+              "No categories available"}
           </p>
         </div>
       </div>
