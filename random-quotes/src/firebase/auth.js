@@ -1,11 +1,13 @@
-import { useState, useContext} from "react";
+import "./index.css";
+import { useState, useContext } from "react";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth, db } from "./config";
+import { auth } from "./config";
 import { UserActionTypes, UserDispatchContext } from "../UserContext";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc,doc } from "firebase/firestore";
+import { db } from "./config";
 import { useNavigate } from "react-router";
 
 export const Auth = () => {
@@ -47,17 +49,18 @@ export const Auth = () => {
         const user = userCredential.user;
         await setDoc(
           doc(db, "users", user.uid),
-          {
-            id:user.uid,
-            name:"",
-            email:user.email,
-            likedQuotes:[],
-            dislikedQuotes:[],
-            favoriteCategories:[],
-            phone:"",
-            photoURL:null,
+          { 
+            id: user.uid,
+            name: "",
+            email: user.email,
+            likedQuotes: [],
+            dislikedQuotes: [],
+            favoriteCategories: [],
+            phone: "",
+            photoURL: null,
           }
         );
+
         dispatch({
           type: UserActionTypes.SetUser,
           payload: { id: user.uid, email: user.email },
@@ -91,9 +94,8 @@ export const Auth = () => {
   };
 
   return (
-    <form className="flex flex-col justify-center items-center
-    h-3/6" onSubmit={handleSubmit}>
-      <h2 className="text-2xl font-bold mb-5">{isSignUp ? "Sign Up" : "Sign In"}</h2>
+    <form className="auth-container" onSubmit={handleSubmit}>
+      <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>
 
       <label htmlFor="email">Email</label>
       <input
@@ -112,15 +114,15 @@ export const Auth = () => {
         className="input"
       />
 
-      <button type="submit" className="btn-yellow">
+      <button type="submit" className="auth-btn">
         {isSignUp ? "Sign Up" : "Sign In"}
       </button>
 
-      {error && <p className="messages">{error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
-      {successMessage && <p className="smessages">{successMessage}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
 
-      <p className="text-xl my-4">
+      <p className="toggle-auth">
         {isSignUp ? (
           <>
             Already have an account?{" "}
