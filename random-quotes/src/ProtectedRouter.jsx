@@ -10,6 +10,7 @@ export const ProtectedRoute = ({ children }) => {
   if (loading){
     return <div>Loading...</div>;
   }
+
   if (!isUserLoggedIn) {
     return <Navigate to="/user/login" replace />;
   }

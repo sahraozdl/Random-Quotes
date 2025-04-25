@@ -4,10 +4,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { UserContext } from "../../UserContext";
-import "./index.css";
 
 export const QuotesPage = () => {
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [likedQuotes, setLikedQuotes] = useState([]);
   const [dislikedQuotes, setDislikedQuotes] = useState([]);
   const [showLiked, setShowLiked] = useState(false);
@@ -46,59 +45,63 @@ export const QuotesPage = () => {
   }, [user]);
 
   return (
-    <section className="quotes-page">
-      <div className="quotes-page__buttons">
-        <button
-          className="quotes-btn"
-          onClick={() => setShowLiked((prev) => !prev)}
-        >
-          Liked Quotes
-        </button>
-        <button
-          className="quotes-btn"
-          onClick={() => setShowDisliked((prev) => !prev)}
-        >
-          Disliked Quotes
-        </button>
-      </div>
-      <div className="quotes-page__content">
-        {showLiked && (
-          <div className="quotes-page__liked">
-            <p className="quotes-page__p black-shadow">Liked quotes:</p>
-            <ul className="black-shadow quotes-page__liked-list">
-              {likedQuotes.length > 0 ? (
-                likedQuotes.map((quote) => (
-                  <li key={quote.id}>
-                    <p>{quote.quote}</p>
-                    <span>{quote.author}</span>
-                    <hr />
-                  </li>
-                ))
-              ) : (
-                <p>No liked quotes yet.</p>
-              )}
-            </ul>
-          </div>
-        )}
+    <section className="container">
+      <div className="inner-container">
+        <div className="flex flex-row justify-evenly gap-2 mx-auto my-0">
+          <button
+            className="btn-yellow"
+            onClick={() => setShowLiked((prev) => !prev)}
+          >
+            Liked Quotes
+          </button>
+          <button
+            className="btn-yellow"
+            onClick={() => setShowDisliked((prev) => !prev)}
+          >
+            Disliked Quotes
+          </button>
+        </div>
+        <div className="flex flex-row gap-2 justify-center p-5 m-0">
+          {showLiked && (
+            <div className="quotes-box">
+              <p className="text-yellow-300 font-bold text-xl">Liked quotes:</p>
+              <ul className="text-left px-2">
+                {likedQuotes.length > 0 ? (
+                  likedQuotes.map((quote) => (
+                    <li key={quote.id} className="py-2">
+                      <p>{quote.quote}</p>
+                      <span>-{quote.author}</span>
+                      <hr />
+                    </li>
+                  ))
+                ) : (
+                  <p>No liked quotes yet.</p>
+                )}
+              </ul>
+            </div>
+          )}
 
-        {showDisliked && (
-          <div className="quotes-page__disliked">
-            <p className="quotes-page__p white-shadow">Disliked quotes:</p>
-            <ul className="white-shadow quotes-page__disliked-list">
-              {dislikedQuotes.length > 0 ? (
-                dislikedQuotes.map((quote) => (
-                  <li key={quote.id}>
-                    <p>{quote.quote}</p>
-                    <span>{quote.author}</span>
-                    <hr />
-                  </li>
-                ))
-              ) : (
-                <p>No disliked quotes yet.</p>
-              )}
-            </ul>
-          </div>
-        )}
+          {showDisliked && (
+            <div className="quotes-box">
+              <p className="text-yellow-300 font-bold text-xl">
+                Disliked quotes:
+              </p>
+              <ul className="text-left px-2">
+                {dislikedQuotes.length > 0 ? (
+                  dislikedQuotes.map((quote) => (
+                    <li key={quote.id} className="py-2">
+                      <p>{quote.quote}</p>
+                      <span>-{quote.author}</span>
+                      <hr />
+                    </li>
+                  ))
+                ) : (
+                  <p>No disliked quotes yet.</p>
+                )}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

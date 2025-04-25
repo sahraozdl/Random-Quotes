@@ -1,4 +1,3 @@
-import "./App.css";
 import { AppRouter } from "./AppRoute";
 import { NavLink } from "react-router";
 import { useContext, useState } from "react";
@@ -41,7 +40,7 @@ function App() {
               Home
             </NavLink>
           </li>
-          <li className="nav-item dropdown">
+          <li className="nav-item">
             <NavLink to="/user/profile" className="nav-btn" end>
               Profile
             </NavLink>

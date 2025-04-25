@@ -3,7 +3,6 @@ import { Title } from "../Title";
 import { useState, useEffect } from "react";
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
-import "./index.css";
 
 export const Home = () => {
   const [quotes, setQuotes] = useState([]);
@@ -41,8 +40,8 @@ export const Home = () => {
   }
 
   return (
-    <div className="home">
-      <div className="home__container">
+    <div className="container" >
+      <div className="inner-container">
         <Title>Random Quotes</Title>
         <QuoteBox
           id={quotes[quoteIndex].id}
