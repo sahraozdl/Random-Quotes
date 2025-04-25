@@ -118,7 +118,7 @@ export const Auth = () => {
 
       {error && <p className="messages">{error}</p>}
 
-      {successMessage && <p className="smessages">{successMessage}</p>}
+      {successMessage && <p className="messages">{successMessage}</p>}
 
       <p className="text-xl my-4">
         {isSignUp ? (
