@@ -71,7 +71,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
     }
 
     if (likedByUser) {
-      // Don't only console log the error. Show a warning message on the page so user can see it.The message doesnt work either.
+      // Don't only console log the error. Show a warning message on the page so user can see it.=>The message doesnt work either probably because of the button is disabled but added anyway.
       console.log("You have already liked this quote.");
       setUserMessage("You have already liked this quote.");
       setTimeout(() => {
@@ -94,10 +94,10 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       });
 
       getQuoteCounts();
-
       setLikedByUser(true);
     } catch (err) {
-      // You can use a state variable to show the error message on the UI
+      // You can use a state variable to show the error message on the UI=>buttons disabled
+      setErrorMessage("Error liking quote",err);
       console.error("Error liking quote:", err);
     }
   }
@@ -136,9 +136,9 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       });
 
       getQuoteCounts();
-
       setDislikedByUser(true);
     } catch (err) {
+      setErrorMessage("Error disliking quote:", err);
       console.error("Error disliking quote:", err);
     }
   }
