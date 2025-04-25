@@ -8,6 +8,7 @@ import { auth } from "./config";
 import { UserActionTypes, UserDispatchContext } from "../UserContext";
 import { setDoc,doc } from "firebase/firestore";
 import { db } from "./config";
+import { useNavigate } from "react-router";
 
 export const Auth = () => {
   const dispatch = useContext(UserDispatchContext);
@@ -16,6 +17,7 @@ export const Auth = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
 
   const toggleMode = () => {
     setIsSignUp((prev) => !prev);
@@ -49,7 +51,7 @@ export const Auth = () => {
           doc(db, "users", user.uid),
           { 
             id: user.uid,
-            name: "Anonymous",
+            name: "",
             email: user.email,
             likedQuotes: [],
             dislikedQuotes: [],
@@ -64,6 +66,9 @@ export const Auth = () => {
           payload: { id: user.uid, email: user.email },
         });
         setSuccessMessage("Signed up successfully!");
+        setTimeout(() => {
+          navigate("/"); // Redirect to profile page after 3 seconds
+        }, 3000);
         console.log("User signed up successfully: ", userCredential.user);
       } else {
         const userCredential = await signInWithEmailAndPassword(
@@ -77,6 +82,9 @@ export const Auth = () => {
           payload: { id: user.uid, email: user.email },
         });
         setSuccessMessage("Signed in successfully!");
+        setTimeout(() => {
+          navigate("/"); // Redirect to profile page after 3 seconds
+        }, 3000);
         console.log("User signed in successfully: ", userCredential.user);
       }
     } catch (err) {
