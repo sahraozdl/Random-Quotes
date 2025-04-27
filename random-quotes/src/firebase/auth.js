@@ -1,4 +1,3 @@
-import "./index.css";
 import { useState, useContext } from "react";
 import {
   createUserWithEmailAndPassword,
