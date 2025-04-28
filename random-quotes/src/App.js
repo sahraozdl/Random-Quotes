@@ -5,6 +5,7 @@ import {
   UserContext,
   UserActionTypes,
   UserDispatchContext,
+  initialUserState
 } from "./UserContext";
 import { auth } from "./firebase/config";
 import { signOut } from "firebase/auth";
@@ -19,7 +20,7 @@ function App() {
       await signOut(auth);
       dispatch({
         type: UserActionTypes.SetUser,
-        payload: null,
+        payload: initialUserState,
       });
       setUserLoggedOutMessagge("User logged out successfully.");
       setTimeout(() => {
@@ -57,14 +58,14 @@ function App() {
               </li>
             </ul>
           </li>
-          {!user && (
+          {!user.email && (
             <li>
               <NavLink to="/user/login" className="nav-btn" end>
                 Login
               </NavLink>
             </li>
           )}
-          {user && (
+          {user.email && (
             <li>
               <button className="nav-btn" onClick={handleLogout}>
                 Logout

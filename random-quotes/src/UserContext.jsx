@@ -8,6 +8,17 @@ import { useState } from "react";
 export const UserContext = createContext();
 export const UserDispatchContext = createContext();
 
+export const initialUserState = {
+  id: null,
+  name: "",
+  email: "",
+  phone: "",
+  likedQuotes: [],
+  dislikedQuotes: [],
+  favoriteCategories: [],
+  photoURL: "",
+};
+
 export const UserActionTypes = {
   SetUser: "SET_USER",
   UpdateLikedQuotes: "UPDATE_LIKED_QUOTES",
@@ -17,7 +28,10 @@ export const UserActionTypes = {
 const userReducer = (state, action) => {
   switch (action.type) {
     case UserActionTypes.SetUser:
-      return action.payload;
+      return {
+        ...initialUserState,
+        ...action.payload,
+      };;
 
     case UserActionTypes.UpdateLikedQuotes:
       if (state.likedQuotes.includes(action.payload.id)) {
@@ -105,9 +119,9 @@ export const UserProvider = ({ children }) => {
       } else {
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: null,
+          payload: initialUserState,
         });
-      }
+      }      
       setLoading(false);
     });
 
