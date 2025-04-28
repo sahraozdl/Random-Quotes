@@ -78,12 +78,7 @@ export const Settings = () => {
   const handleSave = async () => {
     try {
       const userRef = doc(db, "users", user.id);
-      const docSnapshot = await getDoc(userRef);
-      if (!docSnapshot.exists()) {
-        await setDoc(userRef, { name: "", phone: "", photoURL: "" });
-        console.log("New user document created with default fields.");
-      }
-
+      
       let imageURL = previewImage;
 
       if (photoURL instanceof File) {

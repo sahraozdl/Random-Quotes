@@ -5,7 +5,7 @@ import {
 } from "firebase/auth";
 import { auth } from "./config";
 import { UserActionTypes, UserDispatchContext } from "../UserContext";
-import { setDoc,doc } from "firebase/firestore";
+import { setDoc,doc,getDoc } from "firebase/firestore";
 import { db } from "./config";
 import { useNavigate } from "react-router";
 
@@ -62,7 +62,15 @@ export const Auth = () => {
 
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: { id: user.uid, email: user.email },
+          payload: { 
+            id: user.uid,
+            email: user.email,
+            name: "",
+            likedQuotes: [],
+            dislikedQuotes: [],
+            favoriteCategories: [],
+            phone: "",
+            photoURL: "", },
         });
         setSuccessMessage("Signed up successfully!");
         setTimeout(() => {
@@ -76,10 +84,40 @@ export const Auth = () => {
           password
         );
         const user = userCredential.user;
+
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            id: user.uid,
+            email: user.email,
+            name: "",
+            likedQuotes: [],
+            dislikedQuotes: [],
+            favoriteCategories: [],
+            phone: "",
+            photoURL: "",
+          });
+        }
+
+        const userData = userSnap.exists() ? userSnap.data() : {
+          id: user.uid,
+          email: user.email,
+          name: "",
+          likedQuotes: [],
+          dislikedQuotes: [],
+          favoriteCategories: [],
+          phone: "",
+          photoURL: "",
+        };
+
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: { id: user.uid, email: user.email },
+          payload: userData,
         });
+
         setSuccessMessage("Signed in successfully!");
         setTimeout(() => {
           navigate("/"); // Redirect to profile page after 3 seconds
