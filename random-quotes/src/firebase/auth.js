@@ -5,7 +5,7 @@ import {
 } from "firebase/auth";
 import { auth } from "./config";
 import { UserActionTypes, UserDispatchContext } from "../UserContext";
-import { setDoc,doc,getDoc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "./config";
 import { useNavigate } from "react-router";
 
@@ -46,23 +46,20 @@ export const Auth = () => {
           password
         );
         const user = userCredential.user;
-        await setDoc(
-          doc(db, "users", user.uid),
-          { 
-            id: user.uid,
-            name: "",
-            email: user.email,
-            likedQuotes: [],
-            dislikedQuotes: [],
-            favoriteCategories: [],
-            phone: "",
-            photoURL: null,
-          }
-        );
+        await setDoc(doc(db, "users", user.uid), {
+          id: user.uid,
+          name: "",
+          email: user.email,
+          likedQuotes: [],
+          dislikedQuotes: [],
+          favoriteCategories: [],
+          phone: "",
+          photoURL: null,
+        });
 
         dispatch({
           type: UserActionTypes.SetUser,
-          payload: { 
+          payload: {
             id: user.uid,
             email: user.email,
             name: "",
@@ -70,7 +67,8 @@ export const Auth = () => {
             dislikedQuotes: [],
             favoriteCategories: [],
             phone: "",
-            photoURL: "", },
+            photoURL: "",
+          },
         });
         setSuccessMessage("Signed up successfully!");
         setTimeout(() => {
@@ -88,7 +86,6 @@ export const Auth = () => {
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
 
-
         if (!userSnap.exists()) {
           await setDoc(userRef, {
             id: user.uid,
@@ -102,16 +99,18 @@ export const Auth = () => {
           });
         }
 
-        const userData = userSnap.exists() ? userSnap.data() : {
-          id: user.uid,
-          email: user.email,
-          name: "",
-          likedQuotes: [],
-          dislikedQuotes: [],
-          favoriteCategories: [],
-          phone: "",
-          photoURL: "",
-        };
+        const userData = userSnap.exists()
+          ? userSnap.data()
+          : {
+              id: user.uid,
+              email: user.email,
+              name: "",
+              likedQuotes: [],
+              dislikedQuotes: [],
+              favoriteCategories: [],
+              phone: "",
+              photoURL: "",
+            };
 
         dispatch({
           type: UserActionTypes.SetUser,
@@ -140,7 +139,7 @@ export const Auth = () => {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="input"
+        className="w-1/2 p-2 rounded border-solid mb-2"
       />
       <label htmlFor="password">Password</label>
       <input
@@ -148,7 +147,7 @@ export const Auth = () => {
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="input"
+        className="w-1/2 p-2 rounded border-solid mb-2"
       />
 
       <button type="submit" className="auth-btn">
@@ -163,14 +162,20 @@ export const Auth = () => {
         {isSignUp ? (
           <>
             Already have an account?{" "}
-            <span onClick={toggleMode} className="link">
+            <span
+              onClick={toggleMode}
+              className="underline text-black font-bold text-lg cursor-pointer"
+            >
               Sign In
             </span>
           </>
         ) : (
           <>
             Don't have an account?{" "}
-            <span onClick={toggleMode} className="link">
+            <span
+              onClick={toggleMode}
+              className="underline text-black font-bold text-lg cursor-pointer"
+            >
               Sign Up
             </span>
           </>

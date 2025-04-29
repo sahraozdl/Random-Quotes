@@ -143,9 +143,11 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   }
 
   return (
-    <div className="quote-box">
-      <p className="quote-box__quote">{quote}</p>
-      <span className="quote-box__author">{author}</span>
+    <div className="flex flex-col p-4">
+      <div className="flex flex-col justify-between h-52 py-5 px-1 font-normal">
+      <p className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold">{quote}</p>
+      <span className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold text-right">{author}</span>
+      </div>
       <div className="quote-box__btns">
         <div className="quote-box__actions">
           <button

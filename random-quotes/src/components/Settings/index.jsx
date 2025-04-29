@@ -78,7 +78,7 @@ export const Settings = () => {
   const handleSave = async () => {
     try {
       const userRef = doc(db, "users", user.id);
-      
+
       let imageURL = previewImage;
 
       if (photoURL instanceof File) {
@@ -132,7 +132,7 @@ export const Settings = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="user-page__input"
+              className="max-w-72 min-w-64 max-h-9 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black"
               placeholder="Enter your name"
             />
           </label>
@@ -143,7 +143,7 @@ export const Settings = () => {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="user-page__input"
+              className="max-w-72 min-w-64 max-h-9 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black"
               placeholder="Enter your phone number"
             />
           </label>
@@ -154,7 +154,7 @@ export const Settings = () => {
               type="file"
               accept="image/*"
               onChange={handleImageUpload}
-              className="user-page__input"
+              className="max-w-72 min-w-64 max-h-9 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black"
             />
           </label>
 
@@ -164,7 +164,7 @@ export const Settings = () => {
               multiple
               value={selectedCategories}
               onChange={handleCategoryChange}
-              className="user-page__input"
+              className="max-w-72 min-w-64 max-h-9 p-2 rounded-lg border-2 border-black mb-2 bg-violet-200 text-black"
             >
               {categories.map((category) => (
                 <option key={category} value={category}>
@@ -174,7 +174,10 @@ export const Settings = () => {
             </select>
           </label>
 
-          <button onClick={handleSave} className="btn-yellow">
+          <button
+            onClick={handleSave}
+            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300"
+          >
             Save Settings
           </button>
         </div>

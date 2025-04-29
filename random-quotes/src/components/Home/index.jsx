@@ -40,8 +40,8 @@ export const Home = () => {
   }
 
   return (
-    <div className="container" >
-      <div className="inner-container">
+    <div className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full">
+      <div className="bg-indigo-400 border-indigo-950 border-4 rounded-lg p-5 m-auto max-w-full max-h-96 min-h-96">
         <Title>Random Quotes</Title>
         <QuoteBox
           id={quotes[quoteIndex].id}
