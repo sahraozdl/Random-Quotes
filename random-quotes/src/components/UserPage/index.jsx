@@ -37,7 +37,7 @@ export const UserPage = () => {
   }
 
   return (
-    <section className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full">
+    <section className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full w-3/4">
       <h2 className="text-2xl font-bold">Your Profile</h2>
 
       <div className="bg-indigo-400 border-indigo-950 border-4 rounded-lg p-5 m-auto max-w-full max-h-96 min-h-96 w-1/2">

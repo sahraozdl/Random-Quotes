@@ -5,7 +5,7 @@ export const QuotePage = () => {
   const { id } = params;
   return (
     params && (
-      <div className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full">
+      <div className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full w-3/4">
         <h1>Quote Page</h1>
         <p>This is the Quote With ID: {id}.</p>
       </div>

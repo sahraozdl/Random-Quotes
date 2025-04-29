@@ -4,9 +4,8 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "./config";
-import { UserActionTypes, UserDispatchContext } from "../UserContext";
-import { setDoc, doc, getDoc } from "firebase/firestore";
-import { db } from "./config";
+import { ensureUserDocExists, fetchAndDispatchUser } from "./utils";
+import { UserDispatchContext } from "../UserContext";
 import { useNavigate } from "react-router";
 
 export const Auth = () => {
@@ -46,30 +45,9 @@ export const Auth = () => {
           password
         );
         const user = userCredential.user;
-        await setDoc(doc(db, "users", user.uid), {
-          id: user.uid,
-          name: "",
-          email: user.email,
-          likedQuotes: [],
-          dislikedQuotes: [],
-          favoriteCategories: [],
-          phone: "",
-          photoURL: null,
-        });
+        await ensureUserDocExists(user);
+        await fetchAndDispatchUser(user.uid, dispatch);
 
-        dispatch({
-          type: UserActionTypes.SetUser,
-          payload: {
-            id: user.uid,
-            email: user.email,
-            name: "",
-            likedQuotes: [],
-            dislikedQuotes: [],
-            favoriteCategories: [],
-            phone: "",
-            photoURL: "",
-          },
-        });
         setSuccessMessage("Signed up successfully!");
         setTimeout(() => {
           navigate("/"); // Redirect to profile page after 3 seconds
@@ -82,40 +60,8 @@ export const Auth = () => {
           password
         );
         const user = userCredential.user;
-
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
-          await setDoc(userRef, {
-            id: user.uid,
-            email: user.email,
-            name: "",
-            likedQuotes: [],
-            dislikedQuotes: [],
-            favoriteCategories: [],
-            phone: "",
-            photoURL: "",
-          });
-        }
-
-        const userData = userSnap.exists()
-          ? userSnap.data()
-          : {
-              id: user.uid,
-              email: user.email,
-              name: "",
-              likedQuotes: [],
-              dislikedQuotes: [],
-              favoriteCategories: [],
-              phone: "",
-              photoURL: "",
-            };
-
-        dispatch({
-          type: UserActionTypes.SetUser,
-          payload: userData,
-        });
+        await ensureUserDocExists(user); // to check doc exist for the accounts created before this functions
+        await fetchAndDispatchUser(user.uid, dispatch); // loading full user info to context
 
         setSuccessMessage("Signed in successfully!");
         setTimeout(() => {
@@ -130,10 +76,16 @@ export const Auth = () => {
   };
 
   return (
-    <form className="auth-container" onSubmit={handleSubmit}>
-      <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>
+    <form
+      className="flex flex-col justify-center items-center
+    h-3/6"
+      onSubmit={handleSubmit}
+    >
+      <h2 className="text-2xl font-bold">{isSignUp ? "Sign Up" : "Sign In"}</h2>
 
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email" className="text-left w-1/2">
+        Email:
+      </label>
       <input
         id="email"
         type="email"
@@ -141,7 +93,9 @@ export const Auth = () => {
         onChange={(e) => setEmail(e.target.value)}
         className="w-1/2 p-2 rounded border-solid mb-2"
       />
-      <label htmlFor="password">Password</label>
+      <label htmlFor="password" className="text-left w-1/2">
+        Password:
+      </label>
       <input
         id="password"
         type="password"
@@ -150,13 +104,24 @@ export const Auth = () => {
         className="w-1/2 p-2 rounded border-solid mb-2"
       />
 
-      <button type="submit" className="auth-btn">
+      <button
+        type="submit"
+        className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out "
+      >
         {isSignUp ? "Sign Up" : "Sign In"}
       </button>
 
-      {error && <p className="error-message">{error}</p>}
+      {error && (
+        <p className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">
+          {error}
+        </p>
+      )}
 
-      {successMessage && <p className="success-message">{successMessage}</p>}
+      {successMessage && (
+        <p className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">
+          {successMessage}
+        </p>
+      )}
 
       <p className="toggle-auth">
         {isSignUp ? (

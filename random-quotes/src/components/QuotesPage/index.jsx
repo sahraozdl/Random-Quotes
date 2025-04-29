@@ -45,17 +45,17 @@ export const QuotesPage = () => {
   }, [user]);
 
   return (
-    <section className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full">
+    <section className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full w-3/4">
       <div className="bg-indigo-400 border-indigo-950 border-4 rounded-lg p-5 m-auto max-w-full max-h-96 min-h-96">
         <div className="flex flex-row justify-evenly gap-2 mx-auto my-0">
           <button
-            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300"
+            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out "
             onClick={() => setShowLiked((prev) => !prev)}
           >
             Liked Quotes
           </button>
           <button
-            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300"
+            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out "
             onClick={() => setShowDisliked((prev) => !prev)}
           >
             Disliked Quotes

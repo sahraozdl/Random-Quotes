@@ -11,7 +11,7 @@ export async function getQuotes() {
     }));
     return quotes;
   } catch (error) {
-    console.error("❌ Error fetching quotes:", error);
+    console.error("Error fetching quotes:", error);
     return [];
   }
 }

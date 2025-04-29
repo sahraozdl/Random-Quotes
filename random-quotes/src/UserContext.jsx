@@ -80,18 +80,8 @@ const userReducer = (state, action) => {
   }
 };
 
-export const UserProvider = ({ children }) => {
-  const [user, dispatch] = useReducer(userReducer, {
-    id: null,
-    name: null,
-    email: null,
-    phone: null,
-    likedQuotes: [],
-    dislikedQuotes: [],
-    photoURL: null,
-    favoriteCategories: [], // Added here but not sure
-  });
-
+export const UserProvider = ({ children, initialValue = initialUserState  }) => {
+  const [user, dispatch] = useReducer(userReducer, initialValue);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -107,8 +97,8 @@ export const UserProvider = ({ children }) => {
             payload: {
               id: authUser.uid,
               email: authUser.email,
-              name: userData.name || authUser.displayName,
-              photoURL: userData.photoURL || authUser.photoURL,
+              name: userData.name || authUser.displayName || "",
+              photoURL: userData.photoURL || authUser.photoURL ||"",
               phone: userData.phone || "",
               likedQuotes: userData.likedQuotes || [],
               dislikedQuotes: userData.dislikedQuotes || [],

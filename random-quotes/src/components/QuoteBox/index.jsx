@@ -14,7 +14,7 @@ import {
 import { db } from "../../firebase/config";
 
 export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
 
   const [likeCount, setLikeCount] = useState(0);
@@ -23,7 +23,6 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   const [likedByUser, setLikedByUser] = useState(false);
   const [dislikedByUser, setDislikedByUser] = useState(false);
 
-  const [userMessage, setUserMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   // Reference to the specific quote document in Firestore
@@ -69,17 +68,6 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       return;
     }
 
-    if (likedByUser) {
-      // Don't only console log the error. Show a warning message on the page so user can see it.=>The message doesnt work either probably because of the button is disabled but added anyway.
-      console.log("You have already liked this quote.");
-      setUserMessage("You have already liked this quote.");
-      setTimeout(() => {
-        setUserMessage("");
-      }
-      , 3000); // Clear message after 3 seconds
-      return;
-    }
-
     dispatch({ type: UserActionTypes.UpdateLikedQuotes, payload: { id } });
 
     try {
@@ -96,7 +84,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       setLikedByUser(true);
     } catch (err) {
       // You can use a state variable to show the error message on the UI=>buttons disabled
-      setErrorMessage("Error liking quote",err);
+      setErrorMessage("Error liking quote", err);
       console.error("Error liking quote:", err);
     }
   }
@@ -107,16 +95,6 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       setErrorMessage("User is not logged in.");
       setTimeout(() => {
         setErrorMessage("");
-      }
-      , 3000); // Clear message after 3 seconds
-      return;
-    }
-
-    if (dislikedByUser) {
-      console.log("You have already disliked this quote.");
-      setUserMessage("You have already disliked this quote.");
-      setTimeout(() => {
-        setUserMessage("");
       }, 3000); // Clear message after 3 seconds
       return;
     }
@@ -143,32 +121,40 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   }
 
   return (
-    <div className="flex flex-col justify-between h-52 py-5 px-1 font-normal ">
-      <p className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold">{quote}</p>
-      <span className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold text-right">{author}</span>
+    <div className="flex flex-col justify-evenly h-4/5 px-1 font-normal ">
+      <p className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold">
+        {quote}
+      </p>
+      <span className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold text-right">
+        {author}
+      </span>
       <div className="flex flex-row-reverse justify-between py-4">
         <div className="flex justify-center items-center gap-2 py-0 px-4">
           <button
-            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300"
+            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out "
             onClick={handleLikeClick}
             disabled={likedByUser} // Disable if the user already liked the quote
           >
             {likeCount} Like
           </button>
           <button
-            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300"
+            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out  "
             onClick={handleDislikeClick}
             disabled={dislikedByUser} // Disable if the user already disliked the quote
           >
             {dislikeCount} Dislike
           </button>
         </div>
-        <button className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300" onClick={onNewQuoteClick}>
+        <button
+          className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out"
+          onClick={onNewQuoteClick}
+        >
           New Quote
         </button>
       </div>
-      <span className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">{errorMessage}</span>
-      <span className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">{userMessage}</span>
+      <span className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">
+        {errorMessage}
+      </span>
     </div>
   );
 }

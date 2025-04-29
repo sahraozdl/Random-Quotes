@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import { initialUserState } from "./UserContext";
 import { UserProvider } from "./UserContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebase/config";
@@ -51,9 +52,7 @@ const AppWrapper = () => {
   }
 
   return (
-    <UserProvider
-      initialValue={user || { likedQuotes: [], dislikedQuotes: [] }}
-    >
+    <UserProvider initialValue={user || initialUserState}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
