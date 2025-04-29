@@ -113,10 +113,10 @@ export const Settings = () => {
   if (loading) return <p>Loading user settings...</p>;
 
   return (
-    <section className="container ">
+    <section className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full">
       <h2 className="text-2xl font-bold">Account Settings</h2>
 
-      <div className="inner-container w-1/2">
+      <div className="bg-indigo-400 border-indigo-950 border-4 rounded-lg p-5 m-auto max-w-full max-h-96 min-h-96 w-1/2">
         {previewImage && (
           <img
             src={previewImage}

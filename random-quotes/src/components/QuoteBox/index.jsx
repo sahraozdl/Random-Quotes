@@ -143,34 +143,32 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   }
 
   return (
-    <div className="flex flex-col p-4">
-      <div className="flex flex-col justify-between h-52 py-5 px-1 font-normal">
+    <div className="flex flex-col justify-between h-52 py-5 px-1 font-normal ">
       <p className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold">{quote}</p>
       <span className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold text-right">{author}</span>
-      </div>
-      <div className="quote-box__btns">
-        <div className="quote-box__actions">
+      <div className="flex flex-row-reverse justify-between py-4">
+        <div className="flex justify-center items-center gap-2 py-0 px-4">
           <button
-            className="btn"
+            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300"
             onClick={handleLikeClick}
             disabled={likedByUser} // Disable if the user already liked the quote
           >
             {likeCount} Like
           </button>
           <button
-            className="btn"
+            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300"
             onClick={handleDislikeClick}
             disabled={dislikedByUser} // Disable if the user already disliked the quote
           >
             {dislikeCount} Dislike
           </button>
         </div>
-        <button className="btn" onClick={onNewQuoteClick}>
+        <button className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300" onClick={onNewQuoteClick}>
           New Quote
         </button>
       </div>
-      <span className="quote-box__error">{errorMessage}</span>
-      <span className="quote-box__message">{userMessage}</span>
+      <span className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">{errorMessage}</span>
+      <span className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">{userMessage}</span>
     </div>
   );
 }
