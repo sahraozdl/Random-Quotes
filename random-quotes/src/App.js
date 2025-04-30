@@ -25,12 +25,14 @@ function App() {
       setUserLoggedOutMessagge("User logged out successfully.");
       setTimeout(() => {
         setUserLoggedOutMessagge("");
-      }, 3000); // Clear message after 3 seconds
-      console.log("User logged out successfully.");
+      }, 3000);
     } catch (error) {
       console.error("Error signing out: ", error);
+      setUserLoggedOutMessagge("Error logging out, please try again.");
     }
   };
+
+  const navlinkStyles = "bg-none border-none text-white text-2xl font-bold py-3 px-5 rounded-lg no-underline focus:bg-yellow-400 focus:text-black hover:cursor-pointer  hover:bg-yellow-400 hover:text-black";
 
   return (
     <div className="text-center bg-black w-full m-0 p-0 h-full text-lg">
@@ -41,7 +43,7 @@ function App() {
               <li>
                 <NavLink
                   to="/"
-                  className="bg-none border-none text-white text-2xl font-bold py-3 px-5 rounded-lg no-underline focus:bg-yellow-400 focus:text-black hover:cursor-pointer  hover:bg-yellow-400 hover:text-black"
+                  className={navlinkStyles}
                   end
                 >
                   Home
@@ -51,7 +53,7 @@ function App() {
                 <li>
                   <NavLink
                     to="/user/login"
-                    className="bg-none border-none text-white text-2xl font-bold py-3 px-5 rounded-lg no-underline focus:bg-yellow-400 focus:text-black hover:cursor-pointer  hover:bg-yellow-400 hover:text-black"
+                    className={navlinkStyles}
                     end
                   >
                     Login
@@ -63,7 +65,7 @@ function App() {
                   <li className="relative group">
                     <NavLink
                       to="/user/profile"
-                      className="bg-none border-none text-white text-2xl font-bold py-3 px-5 rounded-lg no-underline focus:bg-yellow-400 focus:text-black hover:cursor-pointer  hover:bg-yellow-400 hover:text-black"
+                      className={navlinkStyles}
                       end
                     >
                       Profile
@@ -89,7 +91,7 @@ function App() {
                   </li>
                   <li>
                     <button
-                      className="bg-none border-none text-white text-2xl font-bold py-3 px-5 rounded-lg no-underline focus:bg-yellow-400 focus:text-black hover:cursor-pointer  hover:bg-yellow-400 hover:text-black"
+                      className={navlinkStyles}
                       onClick={handleLogout}
                     >
                       Logout
