@@ -12,6 +12,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import {Button} from '../Button'
 
 export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   const { user } = useContext(UserContext);
@@ -130,27 +131,10 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       </span>
       <div className="flex flex-row-reverse justify-between py-4">
         <div className="flex justify-center items-center gap-2 py-0 px-4">
-          <button
-            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out "
-            onClick={handleLikeClick}
-            disabled={likedByUser} // Disable if the user already liked the quote
-          >
-            {likeCount} Like
-          </button>
-          <button
-            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out  "
-            onClick={handleDislikeClick}
-            disabled={dislikedByUser} // Disable if the user already disliked the quote
-          >
-            {dislikeCount} Dislike
-          </button>
+          <Button title={`${likeCount} Like`} onClick={handleLikeClick} disabled={likedByUser}/>
+          <Button title={`${dislikeCount} Dislike`} onClick={handleDislikeClick} disabled={dislikedByUser}/>
         </div>
-        <button
-          className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out"
-          onClick={onNewQuoteClick}
-        >
-          New Quote
-        </button>
+        <Button title={'New Quote'} onClick={onNewQuoteClick}/>
       </div>
       <span className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">
         {errorMessage}
