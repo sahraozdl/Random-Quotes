@@ -3,6 +3,7 @@ import { UserContext } from "../../UserContext";
 import { doc, setDoc, getDoc, getDocs, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/config";
+import { Button } from "../Button";
 
 const defaultAvatar = "../default-avatar.jpg";
 
@@ -17,14 +18,14 @@ export const Settings = () => {
   const [selectedCategories, setSelectedCategories] = useState(
     user.favoriteCategories || []
   );
-  const [categories, setCategories] = useState([]); // State to hold categories
+  const [categories, setCategories] = useState([]);
 
   const fetchCategories = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "categories"));
       const categoryList = [];
       querySnapshot.forEach((doc) => {
-        categoryList.push(doc.id); // Assuming each document ID is the category name
+        categoryList.push(doc.id);
       });
       setCategories(categoryList);
     } catch (error) {
@@ -174,12 +175,10 @@ export const Settings = () => {
             </select>
           </label>
 
-          <button
+          <Button
             onClick={handleSave}
-            className="w-24 h-12 text-sm bg-yellow-300 text-blue-950 font-bold rounded-lg shadow-md hover:text-yellow-200 hover:bg-blue-950 transition duration-300 ease-in-out focus:bg-blue-950 focus:text-yellow-300"
-          >
-            Save Settings
-          </button>
+            title={`Save Settings`}
+          />
         </div>
       </div>
     </section>

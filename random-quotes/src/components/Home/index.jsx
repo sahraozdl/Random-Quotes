@@ -8,7 +8,6 @@ export const Home = () => {
   const [quotes, setQuotes] = useState([]);
   const [quoteIndex, setQuoteIndex] = useState(0);
 
- //Fetching quoteList
  const quoteList = collection(db, "quotes");
 
   useEffect(() => {
