@@ -28,13 +28,18 @@ export const AppRouter = () => {
             </ProtectedRoute>
           }
         />
-          <Route index element={
+        <Route
+          index
+          element={
             <ProtectedRoute>
-            <QuotesPage />
-          </ProtectedRoute>} />
-        </Route>
-        <Route path="/quotes/:id" element={<QuotePage />} />
+              <QuotesPage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="login" element={<Login />} />
+      </Route>
+      <Route path="/quotes/:id" element={<QuotePage />} />
     </Routes>
   );
 };
