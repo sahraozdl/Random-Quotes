@@ -13,8 +13,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { Button } from "../Button";
+import { useNavigate, useParams } from "react-router";
 
-export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
+export function QuoteBox({ id, quote, author, onNewQuoteClick, category }) {
   const { user } = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
 
@@ -25,6 +26,12 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
   const [dislikedByUser, setDislikedByUser] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
+
+  const { id: quoteIdFromParams } = useParams();
+
+  const isDetailPage = quoteIdFromParams === id;
 
   const quoteDocRef = doc(db, "quotes", id);
 
@@ -42,7 +49,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
     setDislikedByUser(false);
     getQuoteCounts();
     if (user?.id) {
-      const updatedDoc = getDoc(quoteDocRef).then((updatedDoc) => {
+      getDoc(quoteDocRef).then((updatedDoc) => {
         if (updatedDoc.exists()) {
           const updatedData = updatedDoc.data();
           setLikedByUser(updatedData.likedBy?.includes(user.id));
@@ -80,7 +87,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       console.error("Error liking quote:", err);
     }
   }
-  
+
   async function handleDislikeClick() {
     if (!user || !user.id) {
       setErrorMessage("User is not logged in.");
@@ -119,6 +126,11 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
       <span className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold text-right">
         {author}
       </span>
+      {category && (
+        <p className="mt-2 text-xs italic text-gray-500">
+          Category: {category}
+        </p>
+      )}
       <div className="flex flex-row-reverse justify-between py-4">
         <div className="flex justify-center items-center gap-2 py-0 px-4">
           <Button
@@ -132,8 +144,16 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick }) {
             disabled={dislikedByUser}
           />
         </div>
-        <Button title={`New Quote`} onClick={onNewQuoteClick} />
+        {!isDetailPage && (
+          <Button
+            title="View Details"
+            onClick={() => navigate(`/quotes/${id}`)}
+          />
+        )}
       </div>
+      {!isDetailPage && (
+        <Button title={`New Quote`} onClick={onNewQuoteClick} />
+      )}
       <span className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">
         {errorMessage}
       </span>

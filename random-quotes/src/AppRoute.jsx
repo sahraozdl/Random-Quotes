@@ -11,7 +11,6 @@ export const AppRouter = () => {
   return (
     <Routes>
       <Route index element={<Home />} />
-
       <Route path="user">
         <Route
           path="profile"
@@ -29,17 +28,13 @@ export const AppRouter = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="quotes">
-          <Route path=":id" element={
-            <QuotePage />
-            } />
           <Route index element={
             <ProtectedRoute>
             <QuotesPage />
           </ProtectedRoute>} />
         </Route>
+        <Route path="/quotes/:id" element={<QuotePage />} />
         <Route path="login" element={<Login />} />
-      </Route>
     </Routes>
   );
 };

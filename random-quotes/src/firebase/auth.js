@@ -50,9 +50,8 @@ export const Auth = () => {
 
         setSuccessMessage("Signed up successfully!");
         setTimeout(() => {
-          navigate("/"); // Redirect to profile page after 3 seconds
+          navigate("/");
         }, 3000);
-        console.log("User signed up successfully: ", userCredential.user);
       } else {
         const userCredential = await signInWithEmailAndPassword(
           auth,
@@ -60,14 +59,13 @@ export const Auth = () => {
           password
         );
         const user = userCredential.user;
-        await ensureUserDocExists(user); // to check doc exist for the accounts created before this functions
-        await fetchAndDispatchUser(user.uid, dispatch); // loading full user info to context
+        await ensureUserDocExists(user);
+        await fetchAndDispatchUser(user.uid, dispatch);
 
         setSuccessMessage("Signed in successfully!");
         setTimeout(() => {
-          navigate("/"); // Redirect to profile page after 3 seconds
+          navigate("/");
         }, 3000);
-        console.log("User signed in successfully: ", userCredential.user);
       }
     } catch (err) {
       setError(err.message);

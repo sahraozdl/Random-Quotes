@@ -35,7 +35,7 @@ const userReducer = (state, action) => {
 
     case UserActionTypes.UpdateLikedQuotes:
       if (state.likedQuotes.includes(action.payload.id)) {
-        return state; // Prevent duplicate likes
+        return state;
       }
 
       if (state.dislikedQuotes.includes(action.payload.id)) {
@@ -56,7 +56,7 @@ const userReducer = (state, action) => {
 
     case UserActionTypes.UpdateDislikedQuotes:
       if (state.dislikedQuotes.includes(action.payload.id)) {
-        return state; // Prevent duplicate dislikes
+        return state;
       }
 
       if (state.likedQuotes.includes(action.payload.id)) {
@@ -102,7 +102,7 @@ export const UserProvider = ({ children, initialValue = initialUserState  }) => 
               phone: userData.phone || "",
               likedQuotes: userData.likedQuotes || [],
               dislikedQuotes: userData.dislikedQuotes || [],
-              favoriteCategories: userData.favoriteCategories || [], // Added here but not sure
+              favoriteCategories: userData.favoriteCategories || [],
             },
           });
         }

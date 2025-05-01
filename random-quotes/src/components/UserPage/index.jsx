@@ -10,7 +10,6 @@ export const UserPage = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch user data from Firestore on component mount
   useEffect(() => {
     console.log("User ID:", user?.id);
     const fetchUserData = async () => {
