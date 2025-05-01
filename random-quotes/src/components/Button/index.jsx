@@ -7,5 +7,5 @@ export const Button= ({title, onClick, disabled}) => {
   >
     {title}
   </button>
-  )
+  );
 }

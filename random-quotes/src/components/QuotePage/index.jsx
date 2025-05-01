@@ -3,6 +3,7 @@ import { db } from "../../firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { QuoteDetailBox } from "../QuoteDetailBox";
+import { BackButton } from "../BackButton";
 
 export const QuotePage = () => {
   const { id } = useParams();
@@ -46,6 +47,7 @@ export const QuotePage = () => {
   return (
     <div className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full w-3/4">
       <div className="bg-indigo-400 border-indigo-950 border-4 rounded-lg p-5 m-auto max-w-full h-96">
+        <BackButton />
         <QuoteDetailBox
           id={id}
           quote={quote.quote}

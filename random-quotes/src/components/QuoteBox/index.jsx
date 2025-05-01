@@ -119,20 +119,27 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick, category }) {
   }
 
   return (
-    <div className="flex flex-col justify-evenly h-4/5 px-1 font-normal ">
+    <div className="flex flex-col justify-evenly h-4/5 px-1 font-normal">
       <p className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold">
         {quote}
       </p>
-      <span className="text-xl text-white drop-shadow-3xl m-0 py-0 px-4 font-semibold text-right">
-        {author}
-      </span>
+  
+      <div className="text-right px-4">
+        <span className="text-xl text-white drop-shadow-3xl font-semibold">
+          {author}
+        </span>
+      </div>
+  
       {category && (
-        <p className="mt-2 text-xs italic text-gray-500">
-          Category: {category}
-        </p>
+        <div className="mt-2 px-4">
+          <p className="text-xs italic text-gray-500">
+            Category: {category}
+          </p>
+        </div>
       )}
-      <div className="flex flex-row-reverse justify-between py-4">
-        <div className="flex justify-center items-center gap-2 py-0 px-4">
+  
+      <div className="flex flex-row-reverse justify-between items-center py-4">
+        <div className="flex justify-center items-center gap-2 px-4">
           <Button
             title={`${likeCount} Like`}
             onClick={handleLikeClick}
@@ -144,6 +151,7 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick, category }) {
             disabled={dislikedByUser}
           />
         </div>
+  
         {!isDetailPage && (
           <Button
             title="View Details"
@@ -151,12 +159,18 @@ export function QuoteBox({ id, quote, author, onNewQuoteClick, category }) {
           />
         )}
       </div>
+  
       {!isDetailPage && (
-        <Button title={`New Quote`} onClick={onNewQuoteClick} />
+        <div className="p-0 m-0 text-left">
+          <Button title="New Quote" onClick={onNewQuoteClick} />
+        </div>
       )}
-      <span className="text-yellow-400 text-lg font-bold  p-4 drop-shadow-3xl">
-        {errorMessage}
-      </span>
+  
+      {errorMessage && (
+        <div className="p-4">
+          <p className="text-yellow-400 text-lg font-bold drop-shadow-3xl">{errorMessage}</p>
+        </div>
+      )}
     </div>
   );
 }
