@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { UserContext } from "../../UserContext";
 import { useNavigate } from "react-router";
-import { FaQuoteLeft } from "react-icons/fa";
+import { Quote } from "lucide-react";
 import { QuoteData } from "../types/Quote";
 
 interface AddQuoteFormProps {
@@ -94,9 +94,9 @@ export default function AddQuoteForm({ onQuoteAdded }: AddQuoteFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 text-left">
       <h2 className="text-xl font-bold flex items-center gap-2">
-        <FaQuoteLeft className="text-yellow-500" />
-        Add a New Quote
-      </h2>
+  <Quote className="text-yellow-500 w-5 h-5" />
+  Add a New Quote
+</h2>
 
       <div className="flex flex-col">
         <label
