@@ -1,9 +1,13 @@
 import { Navigate } from "react-router";
-import { useContext } from "react";
+import { useContext, ReactNode } from "react";
 import { UserContext } from "./UserContext";
 
-export const ProtectedRoute = ({ children }) => {
-  const {user, loading}  = useContext(UserContext);
+interface ProtectedRouteProps {
+  children: ReactNode;
+}
+
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const { user,loading } = useContext(UserContext);
 
   const isUserLoggedIn = !!user?.id;
 
@@ -15,5 +19,5 @@ export const ProtectedRoute = ({ children }) => {
     return <Navigate to="/user/login" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };

@@ -15,6 +15,7 @@ export interface User {
   id?: string;
   email?: string;
   name?: string;
+  addedQuotes:string[];
   likedQuotes: string[];
   dislikedQuotes: string[];
   favoriteCategories?: string[];
@@ -27,19 +28,30 @@ export const initialUserState: User = {
   name: "",
   email: "",
   phone: "",
+  addedQuotes:[],
   likedQuotes: [],
   dislikedQuotes: [],
   favoriteCategories: [],
   photoURL: "",
 };
 
-export const UserContext = createContext<UserContextType | undefined>(undefined);
-export const UserDispatchContext = createContext<React.Dispatch<UserAction> | undefined>(undefined);
+export interface UserContextType {
+  user: User ;
+  loading: boolean;
+  dispatch: React.Dispatch<UserAction>;
+}
 
-type UserAction =
-  | { type: UserActionTypes.SetUser; payload: User }
+export type UserAction =
+  | { type: UserActionTypes.SetUser; payload: Partial<User> }
   | { type: UserActionTypes.UpdateLikedQuotes; payload: { id: string } }
   | { type: UserActionTypes.UpdateDislikedQuotes; payload: { id: string } };
+
+  export const UserContext = createContext<UserContextType>({
+    user: initialUserState, 
+    loading: true,
+    dispatch: () => {}, 
+  });
+export const UserDispatchContext = createContext<React.Dispatch<UserAction> | undefined>(undefined);
 
 const userReducer = (state: User, action: UserAction): User => {
   switch (action.type) {
@@ -95,14 +107,6 @@ const userReducer = (state: User, action: UserAction): User => {
       throw new Error(`Unhandled action type: ${(action as any).type}`);
   }
 };
-
-interface UserContextType {
-  user: User;
-  loading: boolean;
-  dispatch: React.Dispatch<UserAction>;
-}
-
-
 
 interface UserProviderProps {
   children: ReactNode;

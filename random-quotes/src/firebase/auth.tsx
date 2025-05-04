@@ -5,15 +5,20 @@ import {
 } from "firebase/auth";
 import { auth } from "./config";
 import { ensureUserDocExists, fetchAndDispatchUser } from "./utils";
-import { UserDispatchContext } from "../UserContext";
+import { UserActionTypes, UserDispatchContext, User } from "../UserContext";
 import { useNavigate } from "react-router";
 
+type UserAction = {
+  type: UserActionTypes.SetUser;
+  payload: Partial<User>;
+};
+
 export const Auth = () => {
-  const dispatch = useContext(UserDispatchContext);
+  const dispatch = useContext(UserDispatchContext) as React.Dispatch<UserAction>;
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
@@ -21,12 +26,14 @@ export const Auth = () => {
     setIsSignUp((prev) => !prev);
     setEmail("");
     setPassword("");
-    setError(null);
+    setError("");
     setSuccessMessage("");
   };
-  const handleSubmit = async (e) => {
+  interface HandleSubmitEvent extends React.FormEvent<HTMLFormElement> { }
+
+  const handleSubmit = async (e: HandleSubmitEvent): Promise<void> => {
     e.preventDefault();
-    setError(null);
+    setError("");
     setSuccessMessage("");
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
@@ -68,7 +75,7 @@ export const Auth = () => {
         }, 3000);
       }
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : String(err));
       console.error(err);
     }
   };

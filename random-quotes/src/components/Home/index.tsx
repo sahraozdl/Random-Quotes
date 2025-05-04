@@ -6,10 +6,11 @@ import { collection, getDocs } from "firebase/firestore";
 import Modal from "../Modal/index";
 import AddQuoteForm from "../AddQuoteForm/index";
 import { UserContext } from "../../UserContext";
+import { QuoteData } from "../types/Quote";
 
 export const Home = () => {
   const { user } = useContext(UserContext);
-  const [quotes, setQuotes] = useState([]);
+  const [quotes, setQuotes] = useState<QuoteData[]>([]);
   const [quoteIndex, setQuoteIndex] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +22,7 @@ export const Home = () => {
       try {
         const data = await getDocs(quoteList);
         const quotes = data.docs.map((doc) => ({
-          ...doc.data(),
+          ...(doc.data() as Omit<QuoteData, "id">),
           id: doc.id,
         }));
         setQuotes(quotes);

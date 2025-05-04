@@ -1,4 +1,6 @@
-export function QuoteDetailBox({ id, quote, author, category }) {
+import { QuoteData } from "../types/Quote";
+
+export function QuoteDetailBox({ id, quote, author, category }: QuoteData) {
   return (
     <div className="flex flex-col text-left h-full justify-around">
       <div>

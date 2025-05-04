@@ -1,13 +1,18 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { UserContext } from "../../UserContext";
 import { Button } from "../Button";
 
+interface Quote {
+  id: string;
+  [key: string]: any;
+}
+
 export const QuotesPage = () => {
   const { user } = useContext(UserContext);
-  const [likedQuotes, setLikedQuotes] = useState([]);
-  const [dislikedQuotes, setDislikedQuotes] = useState([]);
+  const [likedQuotes, setLikedQuotes] = useState<Quote[]>([]);
+  const [dislikedQuotes, setDislikedQuotes] = useState<Quote[]>([]);
   const [showLiked, setShowLiked] = useState(false);
   const [showDisliked, setShowDisliked] = useState(false);
 

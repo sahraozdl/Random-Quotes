@@ -1,13 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../UserContext";
+import { useContext, useEffect, useState } from "react";
+import { UserContext,User } from "../../UserContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 
 const defaultAvatar = "../default-avatar.jpg";
 
 export const UserPage = () => {
-  const { user } = useContext(UserContext);
-  const [userData, setUserData] = useState(null);
+  const context = useContext(UserContext);
+
+if (!context) {
+  throw new Error("UserContext must be used within a UserProvider");
+}
+
+const { user} = context;
+
+const [userData, setUserData] = useState<Partial<User> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

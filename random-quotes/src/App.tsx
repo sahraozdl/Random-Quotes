@@ -11,8 +11,15 @@ import { auth } from "./firebase/config";
 import { signOut } from "firebase/auth";
 
 function App() {
-  const { user, loading } = useContext(UserContext);
+  const userContext = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
+
+  if (!userContext || !dispatch) {
+    throw new Error("UserContext or UserDispatchContext is not available.");
+  }
+
+  const { user, loading } = userContext;
+
   const [userLoggedOutMessagge, setUserLoggedOutMessagge] = useState("");
 
   const handleLogout = async () => {
@@ -32,7 +39,7 @@ function App() {
     }
   };
 
-  const navLinkStyles= "bg-none border-none text-white text-2xl font-bold py-3 px-5 rounded-lg no-underline focus:bg-yellow-400 focus:text-black hover:cursor-pointer  hover:bg-yellow-400 hover:text-black"
+  const navLinkStyles = "bg-none border-none text-white text-2xl font-bold py-3 px-5 rounded-lg no-underline focus:bg-yellow-400 focus:text-black hover:cursor-pointer  hover:bg-yellow-400 hover:text-black"
 
   return (
     <div className="text-center bg-black w-full m-0 p-0 h-full text-lg">

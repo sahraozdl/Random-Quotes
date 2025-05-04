@@ -11,15 +11,20 @@ import {
 import { UserContext } from "../../UserContext";
 import { useNavigate } from "react-router";
 import { FaQuoteLeft } from "react-icons/fa";
+import { QuoteData } from "../types/Quote";
 
-export default function AddQuoteForm({ onQuoteAdded }) {
+interface AddQuoteFormProps {
+  onQuoteAdded?: (quote: QuoteData) => void;
+}
+
+export default function AddQuoteForm({ onQuoteAdded }: AddQuoteFormProps) {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [quoteText, setQuoteText] = useState("");
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -38,7 +43,7 @@ export default function AddQuoteForm({ onQuoteAdded }) {
     fetchCategories();
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!user?.id) {
       setMessage("You must be logged in to add a quote.");
@@ -68,7 +73,15 @@ export default function AddQuoteForm({ onQuoteAdded }) {
       });
 
       setMessage("Quote added!");
-      onQuoteAdded && onQuoteAdded({ id: quoteRef.id });
+
+      onQuoteAdded &&
+        onQuoteAdded({
+          id: quoteRef.id,
+          quote: quoteText,
+          author,
+          category,
+        });
+
       setTimeout(() => navigate("/"), 1500);
     } catch (err) {
       console.error("Error adding quote:", err);
