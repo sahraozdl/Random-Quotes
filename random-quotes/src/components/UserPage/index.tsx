@@ -18,7 +18,7 @@ const [userData, setUserData] = useState<Partial<User> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("User ID:", user?.id);
+    console.log("User ID:", user);
     const fetchUserData = async () => {
       if (!user?.id) return;
 

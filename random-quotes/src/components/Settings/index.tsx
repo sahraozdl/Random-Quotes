@@ -1,26 +1,25 @@
 import { useContext, useState, useEffect } from "react";
-import { UserContext,User} from "../../UserContext";
+import { useNavigate } from "react-router";
+import { UserContext, User } from "../../UserContext";
 import { doc, getDoc, getDocs, collection, updateDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../../firebase/config";
+import { db } from "../../firebase/config";
 import { Button } from "../Button";
 
 const defaultAvatar = "../default-avatar.jpg";
 
 export const Settings = () => {
   const { user } = useContext(UserContext);
-
   const [formData, setFormData] = useState<Partial<User>>({
     name: "",
     phone: "",
     photoURL: defaultAvatar,
     favoriteCategories: [],
   });
-
   const [previewImage, setPreviewImage] = useState<string>(defaultAvatar);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<string[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -67,9 +66,22 @@ export const Settings = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setPhotoFile(file);
       setPreviewImage(URL.createObjectURL(file));
     }
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = e.target.value;
+    setFormData((prev) => {
+      const updatedCategories = prev.favoriteCategories?.includes(selected)
+        ? prev.favoriteCategories.filter((cat) => cat !== selected)
+        : [...(prev.favoriteCategories || []), selected];
+
+      return {
+        ...prev,
+        favoriteCategories: updatedCategories,
+      };
+    });
   };
 
   const handleSave = async () => {
@@ -77,36 +89,20 @@ export const Settings = () => {
 
     try {
       const userRef = doc(db, "users", user.id);
-      let finalPhotoURL = formData.photoURL;
-
-      if (photoFile) {
-        const storageRef = ref(storage, `avatars/${user.id}/${photoFile.name}`);
-        const uploadResult = await uploadBytes(storageRef, photoFile);
-        finalPhotoURL = await getDownloadURL(uploadResult.ref);
-      }
 
       await updateDoc(userRef, {
         name: formData.name,
         phone: formData.phone,
-        photoURL: finalPhotoURL,
+        photoURL: formData.photoURL,
         favoriteCategories: formData.favoriteCategories || [],
       });
 
       alert("Profile updated!");
+      navigate("/user/profile");
     } catch (error) {
       console.error("Failed to save profile:", error);
       alert("Error updating profile. See console for details.");
     }
-  };
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = e.target.value;
-    setFormData((prev) => ({
-      ...prev,
-      favoriteCategories: prev.favoriteCategories?.includes(selected)
-        ? prev.favoriteCategories.filter((cat) => cat !== selected)
-        : [...(prev.favoriteCategories || []), selected],
-    }));
   };
 
   if (loading) return <p>Loading user settings...</p>;
@@ -114,7 +110,6 @@ export const Settings = () => {
   return (
     <section className="bg-white rounded-lg p-10 my-12 mx-auto max-h-full w-3/4">
       <h2 className="text-2xl font-bold">Account Settings</h2>
-
       <div className="bg-indigo-400 border-indigo-950 border-4 rounded-lg p-5 m-auto max-w-full w-1/2">
         {previewImage && (
           <img
@@ -123,7 +118,6 @@ export const Settings = () => {
             className="w-20 h-20 rounded-full m-0 p-0"
           />
         )}
-
         <div className="flex flex-col text-left decoration-none">
           <label>
             <strong className="block">Username:</strong>

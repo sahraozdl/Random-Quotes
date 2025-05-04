@@ -29,7 +29,7 @@ export const AppRouter = () => {
           }
         />
         <Route
-          index
+          path="quotes"
           element={
             <ProtectedRoute>
               <QuotesPage />
