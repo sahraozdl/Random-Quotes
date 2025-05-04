@@ -2,7 +2,6 @@ import {
   UserActionTypes,
   UserContext,
   UserDispatchContext,
-  User,
 } from "../../UserContext";
 import { useContext, useState, useEffect } from "react";
 import {
