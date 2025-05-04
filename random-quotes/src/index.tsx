@@ -5,8 +5,10 @@ import App from "./App";
 import { UserProvider } from "./UserContext";
 import { BrowserRouter } from "react-router";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const rootElement = document.getElementById("root");
 
+if(rootElement){
+const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <UserProvider>
@@ -16,3 +18,4 @@ root.render(
     </UserProvider>
   </React.StrictMode>
 );
+}

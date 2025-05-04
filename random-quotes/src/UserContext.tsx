@@ -1,15 +1,29 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, ReactNode } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase/config";
 import { useState } from "react";
 
-export const UserContext = createContext();
-export const UserDispatchContext = createContext();
+export enum UserActionTypes {
+  SetUser = "SET_USER",
+  UpdateLikedQuotes = "UPDATE_LIKED_QUOTES",
+  UpdateDislikedQuotes = "UPDATE_DISLIKED_QUOTES",
+};
 
-export const initialUserState = {
-  id: null,
+export interface User {
+  id?: string;
+  email?: string;
+  name?: string;
+  likedQuotes: string[];
+  dislikedQuotes: string[];
+  favoriteCategories?: string[];
+  photoURL?: string;
+  phone?: string;
+}
+
+export const initialUserState: User = {
+  id: "",
   name: "",
   email: "",
   phone: "",
@@ -19,13 +33,15 @@ export const initialUserState = {
   photoURL: "",
 };
 
-export const UserActionTypes = {
-  SetUser: "SET_USER",
-  UpdateLikedQuotes: "UPDATE_LIKED_QUOTES",
-  UpdateDislikedQuotes: "UPDATE_DISLIKED_QUOTES",
-};
+export const UserContext = createContext<UserContextType | undefined>(undefined);
+export const UserDispatchContext = createContext<React.Dispatch<UserAction> | undefined>(undefined);
 
-const userReducer = (state, action) => {
+type UserAction =
+  | { type: UserActionTypes.SetUser; payload: User }
+  | { type: UserActionTypes.UpdateLikedQuotes; payload: { id: string } }
+  | { type: UserActionTypes.UpdateDislikedQuotes; payload: { id: string } };
+
+const userReducer = (state: User, action: UserAction): User => {
   switch (action.type) {
     case UserActionTypes.SetUser:
       return {
@@ -76,11 +92,24 @@ const userReducer = (state, action) => {
       };
 
     default:
-      throw new Error(`Action type ${action.type} is not supported`);
+      throw new Error(`Unhandled action type: ${(action as any).type}`);
   }
 };
 
-export const UserProvider = ({ children, initialValue = initialUserState  }) => {
+interface UserContextType {
+  user: User;
+  loading: boolean;
+  dispatch: React.Dispatch<UserAction>;
+}
+
+
+
+interface UserProviderProps {
+  children: ReactNode;
+  initialValue?: User;
+}
+
+export const UserProvider = ({ children, initialValue = initialUserState }: UserProviderProps) => {
   const [user, dispatch] = useReducer(userReducer, initialValue);
   const [loading, setLoading] = useState(true);
 
@@ -96,9 +125,9 @@ export const UserProvider = ({ children, initialValue = initialUserState  }) => 
             type: UserActionTypes.SetUser,
             payload: {
               id: authUser.uid,
-              email: authUser.email,
+              email: authUser.email || "",
               name: userData.name || authUser.displayName || "",
-              photoURL: userData.photoURL || authUser.photoURL ||"",
+              photoURL: userData.photoURL || authUser.photoURL || "",
               phone: userData.phone || "",
               likedQuotes: userData.likedQuotes || [],
               dislikedQuotes: userData.dislikedQuotes || [],
@@ -111,7 +140,7 @@ export const UserProvider = ({ children, initialValue = initialUserState  }) => 
           type: UserActionTypes.SetUser,
           payload: initialUserState,
         });
-      }      
+      }
       setLoading(false);
     });
 
@@ -119,7 +148,7 @@ export const UserProvider = ({ children, initialValue = initialUserState  }) => 
   }, []);
 
   return (
-    <UserContext.Provider value={{ user,loading, dispatch }}>
+    <UserContext.Provider value={{ user, loading, dispatch }}>
       <UserDispatchContext.Provider value={dispatch}>
         {children}
       </UserDispatchContext.Provider>
