@@ -1,5 +1,5 @@
 import { QuoteBox } from "../QuoteBox";
-import { Title } from "../Title/index.tsx";
+import { Title } from "../Title/index";
 import { useState, useEffect, useContext } from "react";
 import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
