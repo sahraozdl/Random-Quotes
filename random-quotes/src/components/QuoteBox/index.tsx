@@ -14,7 +14,7 @@ import {
 import { db } from "../../firebase/config";
 import { Button } from "../Button";
 import { useNavigate, useParams } from "react-router";
-import { QuoteData } from "../types/Quote";
+import { QuoteData } from "../../types/Quote";
 
 interface QuoteBoxProps extends QuoteData {
   onNewQuoteClick: () => void;

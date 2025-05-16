@@ -3,11 +3,7 @@ import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { UserContext } from "../../UserContext";
 import { Button } from "../Button";
-
-interface Quote {
-  id: string;
-  [key: string]: any;
-}
+import { Quote } from "../../types/QuotesPage";
 
 export const QuotesPage = () => {
   const { user } = useContext(UserContext);

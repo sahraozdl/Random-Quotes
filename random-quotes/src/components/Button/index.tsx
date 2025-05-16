@@ -1,8 +1,4 @@
-interface ButtonProps {
-  title: string;
-  onClick: () => void;
-  disabled?: boolean;
-}
+import { ButtonProps } from "../../types/button";
 
 export const Button = ({ title, onClick, disabled }: ButtonProps) => {
   return (

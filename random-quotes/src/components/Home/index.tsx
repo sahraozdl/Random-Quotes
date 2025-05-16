@@ -6,7 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import Modal from "../Modal/index";
 import AddQuoteForm from "../AddQuoteForm/index";
 import { UserContext } from "../../UserContext";
-import { QuoteData } from "../types/Quote";
+import { QuoteData } from "../../types/Quote";
 
 export const Home = () => {
   const { user } = useContext(UserContext);

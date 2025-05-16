@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { QuoteDetailBox } from "../QuoteDetailBox";
 import { BackButton } from "../BackButton";
 
-import { QuoteData } from "../types/Quote";
+import { QuoteData } from "../../types/Quote";
 
 export const QuotePage = () => {
   const { id } = useParams<{ id: string }>();
