@@ -3,12 +3,12 @@ import { db } from "../../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { UserContext } from "../../UserContext";
 import { Button } from "../Button";
-import { Quote } from "../../types/QuotesPage";
+import { QuoteData } from "../../types/Quote";
 
 export const QuotesPage = () => {
   const { user } = useContext(UserContext);
-  const [likedQuotes, setLikedQuotes] = useState<Quote[]>([]);
-  const [dislikedQuotes, setDislikedQuotes] = useState<Quote[]>([]);
+  const [likedQuotes, setLikedQuotes] = useState<QuoteData[]>([]);
+  const [dislikedQuotes, setDislikedQuotes] = useState<QuoteData[]>([]);
   const [showLiked, setShowLiked] = useState(false);
   const [showDisliked, setShowDisliked] = useState(false);
 
